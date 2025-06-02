@@ -88,13 +88,11 @@ const technologies = [
 // Main 3D Portfolio component
 export default function Portfolio3D({ onLoad, onError }) {
   const [selectedTech, setSelectedTech] = useState(null)
-  const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
     try {
       console.log("Portfolio3D component mounted")
       // Signal that the component has loaded
-      setLoaded(true)
       onLoad && onLoad()
     } catch (error) {
       console.error("Error in Portfolio3D:", error)

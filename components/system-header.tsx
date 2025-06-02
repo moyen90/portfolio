@@ -3,13 +3,7 @@
 import { useState, useEffect } from "react"
 import { Bell, Clock, Wifi, WifiOff } from "lucide-react"
 
-export default function SystemHeader({
-  onNotificationsClick,
-  notificationCount,
-}: {
-  onNotificationsClick: () => void
-  notificationCount: number
-}) {
+export default function SystemHeader() {
   const [currentTime, setCurrentTime] = useState(new Date())
   const [isOnline, setIsOnline] = useState(true)
 
@@ -56,15 +50,15 @@ export default function SystemHeader({
         <div className="text-green-600 text-xs hidden md:block">{formattedDate}</div>
 
         <button
-          onClick={onNotificationsClick}
-          className="relative text-green-500 hover:text-green-400 transition-colors"
+          // onClick={onNotificationsClick} // Functionality removed
+          className="relative text-green-500 hover:text-green-400 transition-colors cursor-default" // Made cursor default
         >
           <Bell className="w-5 h-5" />
-          {notificationCount > 0 && (
+          {/* {notificationCount > 0 && ( // Functionality removed
             <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
               {notificationCount}
             </span>
-          )}
+          )} */}
         </button>
       </div>
     </header>

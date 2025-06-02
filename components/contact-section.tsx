@@ -32,7 +32,7 @@ export default function ContactSection() {
       await new Promise((resolve) => setTimeout(resolve, 1500))
       setSubmitSuccess(true)
       setFormData({ name: "", email: "", subject: "", message: "" })
-    } catch (error) {
+    } catch (_error) {
       setSubmitError("There was an error sending your message. Please try again.")
     } finally {
       setIsSubmitting(false)
