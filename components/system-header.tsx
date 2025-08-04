@@ -70,7 +70,7 @@ export default function SystemHeader({
 
         <div className="text-green-600 text-xs hidden md:block">{formattedDate}</div>
 
-        <button
+        {/* <button
           onClick={onNotificationsClick}
           className="relative text-green-500 hover:text-green-400 transition-colors"
         >
@@ -80,7 +80,7 @@ export default function SystemHeader({
               {notificationCount}
             </span>
           )}
-        </button>
+        </button> */}
       </div>
     </header>
   )

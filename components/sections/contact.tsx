@@ -1,57 +1,39 @@
 "use client"
 
 import type React from "react"
+import { useEffect } from "react"
 
-import { useState } from "react"
 import { motion } from "framer-motion"
-import emailjs from '@emailjs/browser'
-import { useSystem } from "../system-context"
 import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Send } from "lucide-react"
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  })
-  const [isLoading, setIsLoading] = useState(false)
-  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    setStatus('idle')
-
-    try {
-      const result = await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          subject: formData.subject,
-          message: formData.message,
-          to_email: 'dev.moyenislam@gmail.com',
-        },
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
-      )
-
-      if (result.status === 200) {
-        setStatus('success')
-        setFormData({ name: "", email: "", subject: "", message: "" })
+  // Suppress browser extension errors
+  useEffect(() => {
+    const originalError = console.error
+    console.error = (...args) => {
+      if (args[0]?.includes?.('message channel closed') ||
+        args[0]?.includes?.('asynchronous response')) {
+        return // Ignore extension errors
       }
-    } catch (error) {
-      console.error('EmailJS error:', error)
-      setStatus('error')
-    } finally {
-      setIsLoading(false)
+      originalError.apply(console, args)
     }
+
+    return () => {
+      console.error = originalError
+    }
+  }, [])
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+    const name = formData.get('name') as string
+    const email = formData.get('email') as string
+    const subject = formData.get('subject') as string
+    const message = formData.get('message') as string
+
+    const mailtoLink = `mailto:dev.moyenislam@gmail.com?subject=${encodeURIComponent(`Portfolio Contact: ${subject}`)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`
+
+    window.open(mailtoLink, '_self')
   }
 
   return (
@@ -116,19 +98,19 @@ export default function Contact() {
                   <h3 className="text-green-500 font-medium mb-4">Connect</h3>
                   <div className="flex space-x-4">
                     <a
-                      href="#"
+                      href="https://github.com/moyen90"
                       className="p-2 bg-green-900/20 rounded-md text-green-500 hover:text-green-400 hover:bg-green-900/30 transition-colors"
                     >
                       <Github className="w-6 h-6" />
                     </a>
                     <a
-                      href="#"
+                      href="https://www.linkedin.com/in/moyenul-islam-675204211/"
                       className="p-2 bg-green-900/20 rounded-md text-green-500 hover:text-green-400 hover:bg-green-900/30 transition-colors"
                     >
                       <Linkedin className="w-6 h-6" />
                     </a>
                     <a
-                      href="#"
+                      href="https://x.com/moyen900"
                       className="p-2 bg-green-900/20 rounded-md text-green-500 hover:text-green-400 hover:bg-green-900/30 transition-colors"
                     >
                       <Twitter className="w-6 h-6" />
@@ -158,8 +140,6 @@ export default function Contact() {
                       type="text"
                       id="name"
                       name="name"
-                      value={formData.name}
-                      onChange={handleChange}
                       required
                       className="w-full px-3 py-2 bg-gray-700 border border-green-900/30 rounded-md text-white focus:outline-none focus:ring-1 focus:ring-green-500"
                     />
@@ -172,8 +152,6 @@ export default function Contact() {
                       type="email"
                       id="email"
                       name="email"
-                      value={formData.email}
-                      onChange={handleChange}
                       required
                       className="w-full px-3 py-2 bg-gray-700 border border-green-900/30 rounded-md text-white focus:outline-none focus:ring-1 focus:ring-green-500"
                     />
@@ -188,8 +166,6 @@ export default function Contact() {
                     type="text"
                     id="subject"
                     name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
                     required
                     className="w-full px-3 py-2 bg-gray-700 border border-green-900/30 rounded-md text-white focus:outline-none focus:ring-1 focus:ring-green-500"
                   />
@@ -202,34 +178,19 @@ export default function Contact() {
                   <textarea
                     id="message"
                     name="message"
-                    value={formData.message}
-                    onChange={handleChange}
                     required
                     rows={5}
                     className="w-full px-3 py-2 bg-gray-700 border border-green-900/30 rounded-md text-white focus:outline-none focus:ring-1 focus:ring-green-500"
                   ></textarea>
                 </div>
 
-                {status === 'success' && (
-                  <div className="text-green-400 text-sm mb-4">
-                    ✅ Message sent successfully!
-                  </div>
-                )}
-
-                {status === 'error' && (
-                  <div className="text-red-400 text-sm mb-4">
-                    ❌ Failed to send message. Please try again.
-                  </div>
-                )}
-
                 <div className="text-right">
                   <button
                     type="submit"
-                    disabled={isLoading}
-                    className="px-4 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-md transition-colors flex items-center justify-center"
+                    className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors flex items-center justify-center"
                   >
                     <Send className="w-4 h-4 mr-2" />
-                    {isLoading ? 'Sending...' : 'Send via Email'}
+                    Send Message
                   </button>
                 </div>
               </form>
