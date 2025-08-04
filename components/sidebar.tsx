@@ -2,9 +2,9 @@
 
 import { useSystem } from "./system-context"
 import { motion } from "framer-motion"
-import { LayoutDashboard, Cpu, Network, TerminalIcon, Mail, User, FolderOpen } from "lucide-react"
+import { LayoutDashboard, Cpu, Network, TerminalIcon, Mail, User, FolderOpen, X } from "lucide-react"
 
-export default function Sidebar() {
+export default function Sidebar({ onMobileClose }: { onMobileClose?: () => void }) {
   const { activeSection, setActiveSection, systemStatus, addNotification } = useSystem()
 
   const menuItems = [
@@ -20,6 +20,10 @@ export default function Sidebar() {
     console.log("Changing section to:", sectionId)
     setActiveSection(sectionId)
     addNotification(`Navigated to ${sectionId}`, "info")
+    // Close mobile sidebar when an item is selected
+    if (onMobileClose) {
+      onMobileClose()
+    }
   }
 
   return (
@@ -27,9 +31,23 @@ export default function Sidebar() {
       initial={{ x: -100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ delay: 0.2, duration: 0.5 }}
-      className="w-64 bg-gray-900 border-r border-green-900/30 flex flex-col"
+      className={`bg-gray-900 flex flex-col ${onMobileClose
+        ? "w-full h-full rounded-lg border border-green-900/30 shadow-2xl"
+        : "w-64 border-r border-green-900/30 h-full"
+        }`}
     >
       <div className="p-4 border-b border-green-900/30">
+        {/* Mobile Close Button */}
+        {onMobileClose && (
+          <div className="flex justify-end mb-4 md:hidden">
+            <button
+              onClick={onMobileClose}
+              className="text-green-500 hover:text-green-400 transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+        )}
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 rounded-full bg-green-900/30 flex items-center justify-center">
             <User className="w-6 h-6 text-green-500" />
@@ -41,7 +59,7 @@ export default function Sidebar() {
         </div>
       </div>
 
-      <nav className="flex-1 p-2">
+      <nav className={`flex-1 p-2 ${onMobileClose ? "overflow-y-auto" : ""}`}>
         {menuItems.map((item) => (
           <button
             key={item.id}

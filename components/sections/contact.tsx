@@ -4,19 +4,19 @@ import type React from "react"
 
 import { useState } from "react"
 import { motion } from "framer-motion"
+import emailjs from '@emailjs/browser'
 import { useSystem } from "../system-context"
-import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Send, Loader2 } from "lucide-react"
+import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Send } from "lucide-react"
 
 export default function Contact() {
-  const { addNotification } = useSystem()
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     subject: "",
     message: "",
   })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitSuccess, setSubmitSuccess] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -25,20 +25,32 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsSubmitting(true)
+    setIsLoading(true)
+    setStatus('idle')
 
     try {
-      // Simulate form submission
-      await new Promise((resolve) => setTimeout(resolve, 1500))
-      setSubmitSuccess(true)
-      addNotification("Message sent successfully", "success")
-      console.log("Form submitted:", formData)
-      setFormData({ name: "", email: "", subject: "", message: "" })
+      const result = await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          to_email: 'dev.moyenislam@gmail.com',
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      )
+
+      if (result.status === 200) {
+        setStatus('success')
+        setFormData({ name: "", email: "", subject: "", message: "" })
+      }
     } catch (error) {
-      console.error("Form submission error:", error)
-      addNotification("Failed to send message", "error")
+      console.error('EmailJS error:', error)
+      setStatus('error')
     } finally {
-      setIsSubmitting(false)
+      setIsLoading(false)
     }
   }
 
@@ -136,107 +148,91 @@ export default function Contact() {
             <div className="bg-gray-800 border border-green-900/30 rounded-md p-6 h-full">
               <h2 className="text-green-400 font-bold text-xl mb-6">Send Message</h2>
 
-              {submitSuccess ? (
-                <div className="text-center py-8">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-900/20 mb-4">
-                    <Send className="w-8 h-8 text-green-500" />
-                  </div>
-                  <h3 className="text-green-400 font-bold text-xl mb-2">Message Sent!</h3>
-                  <p className="text-green-600 mb-6">
-                    Thank you for reaching out. I'll get back to you as soon as possible.
-                  </p>
-                  <button
-                    onClick={() => setSubmitSuccess(false)}
-                    type="button"
-                    className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors"
-                  >
-                    Send Another Message
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label htmlFor="name" className="block text-green-500 text-sm font-medium mb-1">
-                        Name
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-3 py-2 bg-gray-700 border border-green-900/30 rounded-md text-white focus:outline-none focus:ring-1 focus:ring-green-500"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="email" className="block text-green-500 text-sm font-medium mb-1">
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-3 py-2 bg-gray-700 border border-green-900/30 rounded-md text-white focus:outline-none focus:ring-1 focus:ring-green-500"
-                      />
-                    </div>
-                  </div>
-
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="subject" className="block text-green-500 text-sm font-medium mb-1">
-                      Subject
+                    <label htmlFor="name" className="block text-green-500 text-sm font-medium mb-1">
+                      Name
                     </label>
                     <input
                       type="text"
-                      id="subject"
-                      name="subject"
-                      value={formData.subject}
+                      id="name"
+                      name="name"
+                      value={formData.name}
                       onChange={handleChange}
                       required
                       className="w-full px-3 py-2 bg-gray-700 border border-green-900/30 rounded-md text-white focus:outline-none focus:ring-1 focus:ring-green-500"
                     />
                   </div>
-
                   <div>
-                    <label htmlFor="message" className="block text-green-500 text-sm font-medium mb-1">
-                      Message
+                    <label htmlFor="email" className="block text-green-500 text-sm font-medium mb-1">
+                      Email
                     </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
                       onChange={handleChange}
                       required
-                      rows={5}
                       className="w-full px-3 py-2 bg-gray-700 border border-green-900/30 rounded-md text-white focus:outline-none focus:ring-1 focus:ring-green-500"
-                    ></textarea>
+                    />
                   </div>
+                </div>
 
-                  <div className="text-right">
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors flex items-center justify-center"
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                          Sending...
-                        </>
-                      ) : (
-                        <>
-                          <Send className="w-4 h-4 mr-2" />
-                          Send Message
-                        </>
-                      )}
-                    </button>
+                <div>
+                  <label htmlFor="subject" className="block text-green-500 text-sm font-medium mb-1">
+                    Subject
+                  </label>
+                  <input
+                    type="text"
+                    id="subject"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-3 py-2 bg-gray-700 border border-green-900/30 rounded-md text-white focus:outline-none focus:ring-1 focus:ring-green-500"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="message" className="block text-green-500 text-sm font-medium mb-1">
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
+                    rows={5}
+                    className="w-full px-3 py-2 bg-gray-700 border border-green-900/30 rounded-md text-white focus:outline-none focus:ring-1 focus:ring-green-500"
+                  ></textarea>
+                </div>
+
+                {status === 'success' && (
+                  <div className="text-green-400 text-sm mb-4">
+                    ✅ Message sent successfully!
                   </div>
-                </form>
-              )}
+                )}
+
+                {status === 'error' && (
+                  <div className="text-red-400 text-sm mb-4">
+                    ❌ Failed to send message. Please try again.
+                  </div>
+                )}
+
+                <div className="text-right">
+                  <button
+                    type="submit"
+                    disabled={isLoading}
+                    className="px-4 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-md transition-colors flex items-center justify-center"
+                  >
+                    <Send className="w-4 h-4 mr-2" />
+                    {isLoading ? 'Sending...' : 'Send via Email'}
+                  </button>
+                </div>
+              </form>
             </div>
           </motion.div>
         </div>

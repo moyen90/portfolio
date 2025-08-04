@@ -1,14 +1,16 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Bell, Clock, Wifi, WifiOff } from "lucide-react"
+import { Bell, Clock, Wifi, WifiOff, Menu } from "lucide-react"
 
 export default function SystemHeader({
   onNotificationsClick,
   notificationCount,
+  onMobileMenuClick,
 }: {
   onNotificationsClick: () => void
   notificationCount: number
+  onMobileMenuClick?: () => void
 }) {
   const [currentTime, setCurrentTime] = useState(new Date())
   const [isOnline, setIsOnline] = useState(true)
@@ -38,7 +40,20 @@ export default function SystemHeader({
   return (
     <header className="bg-gray-900 border-b border-green-900/30 p-2 flex justify-between items-center">
       <div className="flex items-center">
-        <div className="text-green-500 font-bold text-lg mr-4">SERVER CONTROL CENTER</div>
+        {/* Mobile Menu Button */}
+        <button
+          onClick={onMobileMenuClick}
+          className="text-green-500 hover:text-green-400 transition-colors mr-3 md:hidden"
+        >
+          <Menu className="w-6 h-6" />
+        </button>
+
+        {/* Desktop Title */}
+        <div className="text-green-500 font-bold text-lg mr-4 hidden md:block">SERVER CONTROL CENTER</div>
+
+        {/* Mobile Title */}
+        <div className="text-green-500 font-bold text-base mr-4 md:hidden">SCC</div>
+
         <div className="text-green-600 text-xs hidden md:block">v1.0.0</div>
       </div>
 

@@ -18,6 +18,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 export default function CommandCenter() {
   const { activeSection, notifications, addNotification } = useSystem()
   const [showNotifications, setShowNotifications] = useState(false)
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
 
   // Add notification only once on mount
   useEffect(() => {
@@ -49,6 +50,15 @@ export default function CommandCenter() {
     setShowNotifications(false)
   }, [])
 
+  // Mobile sidebar handlers
+  const handleMobileMenuToggle = useCallback(() => {
+    setIsMobileSidebarOpen(prev => !prev)
+  }, [])
+
+  const handleMobileSidebarClose = useCallback(() => {
+    setIsMobileSidebarOpen(false)
+  }, [])
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -59,12 +69,37 @@ export default function CommandCenter() {
       <SystemHeader
         onNotificationsClick={handleNotificationsToggle}
         notificationCount={notifications.length}
+        onMobileMenuClick={handleMobileMenuToggle}
       />
 
-      <div className="flex flex-1 overflow-auto">
-        <Sidebar />
+      <div className="flex flex-1 overflow-auto relative">
+        {/* Desktop Sidebar */}
+        <div className="hidden md:block">
+          <Sidebar />
+        </div>
 
-        <main className="flex-1 relative">
+        {/* Mobile Sidebar Overlay */}
+        {isMobileSidebarOpen && (
+          <>
+            {/* Backdrop */}
+            <div
+              className="fixed inset-0 bg-black/50 z-40 md:hidden"
+              onClick={handleMobileSidebarClose}
+            />
+            {/* Mobile Sidebar - Full Screen */}
+            <motion.div
+              initial={{ opacity: 0, x: 20, y: -20 }}
+              animate={{ opacity: 1, x: 0, y: 0 }}
+              exit={{ opacity: 0, x: 20, y: -20 }}
+              transition={{ type: "spring", damping: 20, stiffness: 300 }}
+              className="fixed inset-4 z-50 md:hidden"
+            >
+              <Sidebar onMobileClose={handleMobileSidebarClose} />
+            </motion.div>
+          </>
+        )}
+
+        <main className="flex-1 relative w-full md:w-auto">
           <div className="absolute inset-0 bg-grid-pattern opacity-5 pointer-events-none"></div>
 
           <ScrollArea className="h-full w-full">
