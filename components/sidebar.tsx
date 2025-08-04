@@ -2,7 +2,7 @@
 
 import { useSystem } from "./system-context"
 import { motion } from "framer-motion"
-import { LayoutDashboard, Cpu, Network, TerminalIcon, Mail, User } from "lucide-react"
+import { LayoutDashboard, Cpu, Network, TerminalIcon, Mail, User, FolderOpen } from "lucide-react"
 
 export default function Sidebar() {
   const { activeSection, setActiveSection, systemStatus, addNotification } = useSystem()
@@ -11,6 +11,7 @@ export default function Sidebar() {
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
     { id: "skills", label: "Skills Matrix", icon: Cpu },
     { id: "projects", label: "Projects Network", icon: Network },
+    { id: "projects-list", label: "Projects List", icon: FolderOpen },
     { id: "terminal", label: "Terminal", icon: TerminalIcon },
     { id: "contact", label: "Contact", icon: Mail },
   ]

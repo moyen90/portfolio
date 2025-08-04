@@ -5,10 +5,10 @@ import type React from "react"
 import { useEffect } from "react"
 import { motion } from "framer-motion"
 import { useSystem } from "../system-context"
-import { Server, Database, Code, Radio, CreditCard, ArrowRight, LucideIcon } from "lucide-react"
+import { Server, Database, Code, Radio, CreditCard, ArrowRight, ExternalLink, LucideIcon } from "lucide-react"
 
 export default function Dashboard() {
-  const { addNotification } = useSystem()
+  const { addNotification, setActiveSection } = useSystem()
 
   useEffect(() => {
     // Simulate system notifications
@@ -87,21 +87,24 @@ export default function Dashboard() {
           <h2 className="text-xl font-bold text-green-400 mb-4">Recent Projects</h2>
           <div className="space-y-3">
             <ProjectItem
-              name="E-commerce Platform"
-              description="Full-featured backend with product management, cart functionality, and order processing"
-              technologies={["Node.js", "Express", "MongoDB", "Redis"]}
+              name="Photofox AI"
+              description="PhotoFox provides professional photography and videography services to help small brands look Fortune-500-level online."
+              technologies={["Node.js", "Express", "MongoDB", "Generative AI"]}
+              liveLink="https://photofox.ai"
               delay={0.25}
             />
             <ProjectItem
-              name="Real-time Chat Application"
-              description="Scalable chat platform with private messaging, group chats, and notifications"
-              technologies={["Socket.io", "Express", "PostgreSQL", "Redis"]}
+              name="Vocalo AI"
+              description="Vocalo.ai is an AI-powered language learning platform that enhances users' English speaking skills through personalized curriculum, immersive conversations, detailed feedback, and tailored exercises."
+              technologies={["Socket.io", "Express", "MongoDB", "Generative AI"]}
+              liveLink="https://vocalo.ai"
               delay={0.3}
             />
             <ProjectItem
-              name="Content Management System"
-              description="Headless CMS with GraphQL API, role-based access control, and content versioning"
-              technologies={["GraphQL", "Node.js", "MongoDB", "AWS S3"]}
+              name="SketchToImage"
+              description="Sketch To Image (previously Scribble To Art) transforms any sketches into stunning image using AI magic."
+              technologies={["Express.js", "MongoDB", "Generative AI"]}
+              liveLink="https://sketchtoimage.com"
               delay={0.35}
             />
           </div>
@@ -112,10 +115,7 @@ export default function Dashboard() {
             className="mt-4"
           >
             <button
-              onClick={() => {
-                const { setActiveSection } = useSystem();
-                setActiveSection("projects");
-              }}
+              onClick={() => setActiveSection("projects")}
               type="button"
               className="flex items-center text-green-500 hover:text-green-400 transition-colors"
             >
@@ -171,11 +171,13 @@ function ProjectItem({
   name,
   description,
   technologies,
+  liveLink,
   delay = 0,
 }: {
   name: string
   description: string
   technologies: string[]
+  liveLink?: string
   delay?: number
 }) {
   return (
@@ -185,14 +187,29 @@ function ProjectItem({
       transition={{ duration: 0.2, delay }}
       className="bg-gray-800 border border-green-900/30 rounded-md p-4"
     >
-      <h3 className="text-green-400 font-bold">{name}</h3>
-      <p className="text-green-600 text-sm mt-1">{description}</p>
-      <div className="flex flex-wrap gap-2 mt-2">
-        {technologies.map((tech) => (
-          <span key={tech} className="text-xs bg-green-900/20 text-green-500 px-2 py-1 rounded">
-            {tech}
-          </span>
-        ))}
+      <div className="flex items-start justify-between">
+        <div className="flex-1">
+          <h3 className="text-green-400 font-bold">{name}</h3>
+          <p className="text-green-600 text-sm mt-1">{description}</p>
+          <div className="flex flex-wrap gap-2 mt-2">
+            {technologies.map((tech) => (
+              <span key={tech} className="text-xs bg-green-900/20 text-green-500 px-2 py-1 rounded">
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+        {liveLink && (
+          <a
+            href={liveLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 text-green-400 hover:text-green-300 transition-colors ml-3 mt-1"
+          >
+            <span className="text-xs">Live</span>
+            <ExternalLink className="w-3 h-3" />
+          </a>
+        )}
       </div>
     </motion.div>
   )

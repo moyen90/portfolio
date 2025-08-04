@@ -116,26 +116,56 @@ export default function Terminal() {
     } else if (command === "projects") {
       addTerminalEntry({
         output: (
-          <div className="space-y-2">
-            <p className="text-green-400 font-bold">Recent Projects:</p>
-            <div>
-              <p className="text-green-400">E-commerce Platform</p>
-              <p className="text-sm">
-                Full-featured backend with product management, cart functionality, and order processing
-              </p>
-              <p className="text-xs text-green-600">Technologies: Node.js, Express, MongoDB, Redis</p>
+          <div className="space-y-4">
+            <p className="text-green-400 font-bold">═══ FEATURED PROJECTS ═══</p>
+
+            <div className="space-y-3">
+              <div className="border-l-2 border-green-500 pl-4">
+                <div className="flex items-center space-x-2">
+                  <span className="text-green-400 font-bold">● Photofox AI</span>
+                  <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded">ACTIVE</span>
+                </div>
+                <p className="text-sm text-green-600 mt-1">
+                  Professional photography platform with AI-powered image enhancement,
+                  automated editing workflows, and enterprise-grade content management
+                </p>
+                <p className="text-xs text-green-700 mt-1">
+                  Tech: Node.js • Express • MongoDB • Generative AI • GCP • Docker
+                </p>
+              </div>
+
+              <div className="border-l-2 border-green-500 pl-4">
+                <div className="flex items-center space-x-2">
+                  <span className="text-green-400 font-bold">● Vocalo AI</span>
+                  <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded">ACTIVE</span>
+                </div>
+                <p className="text-sm text-green-600 mt-1">
+                  AI-powered language learning platform with personalized curriculum,
+                  immersive conversations, and real-time speech processing
+                </p>
+                <p className="text-xs text-green-700 mt-1">
+                  Tech: Socket.io • Express • MongoDB • Generative AI • GCP • Docker
+                </p>
+              </div>
+
+              <div className="border-l-2 border-green-500 pl-4">
+                <div className="flex items-center space-x-2">
+                  <span className="text-green-400 font-bold">● SketchToImage</span>
+                  <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded">ACTIVE</span>
+                </div>
+                <p className="text-sm text-green-600 mt-1">
+                  Transform sketches into stunning images using AI magic with
+                  advanced image processing and multiple art styles
+                </p>
+                <p className="text-xs text-green-700 mt-1">
+                  Tech: Express.js • MongoDB • Generative AI • GCP • Docker
+                </p>
+              </div>
             </div>
-            <div>
-              <p className="text-green-400">Real-time Chat Application</p>
-              <p className="text-sm">Scalable chat platform with private messaging, group chats, and notifications</p>
-              <p className="text-xs text-green-600">Technologies: Socket.io, Express, PostgreSQL, Redis</p>
-            </div>
-            <div>
-              <p className="text-green-400">Content Management System</p>
-              <p className="text-sm">
-                Headless CMS with GraphQL API, role-based access control, and content versioning
-              </p>
-              <p className="text-xs text-green-600">Technologies: GraphQL, Node.js, MongoDB, AWS S3</p>
+
+            <div className="text-xs text-green-700 mt-4 pt-2 border-t border-green-900/30">
+              <p>→ All projects feature scalable architecture and modern development practices</p>
+              <p>→ Type 'contact' for collaboration opportunities</p>
             </div>
           </div>
         ),
@@ -249,7 +279,7 @@ export default function Terminal() {
           transition={{ delay: 0.5 }}
           className="text-green-600 text-sm"
         >
-          <p>Tip: Type 'skills' or 'projects' to learn more about my work.</p>
+          <p>Tip: Type 'skills', 'projects', or 'projects-list' to learn more about my work.</p>
         </motion.div>
       </div>
     </section>

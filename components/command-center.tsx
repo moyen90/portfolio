@@ -7,10 +7,11 @@ import Sidebar from "./sidebar"
 import Dashboard from "./sections/dashboard"
 import SkillsMatrix from "./sections/skills-matrix"
 import ProjectsNetwork from "./sections/projects-network"
+import ProjectsList from "./sections/projects-list"
 import Terminal from "./sections/terminal"
 import Contact from "./sections/contact"
 import SystemHeader from "./system-header"
-import NotificationsPanel from "./notifications-panel"
+
 import Footer from "./footer"
 import { ScrollArea } from "@/components/ui/scroll-area"
 
@@ -28,6 +29,7 @@ export default function CommandCenter() {
     dashboard: Dashboard,
     skills: SkillsMatrix,
     projects: ProjectsNetwork,
+    "projects-list": ProjectsList,
     terminal: Terminal,
     contact: Contact,
   }), [])
