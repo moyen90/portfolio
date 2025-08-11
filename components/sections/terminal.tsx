@@ -81,7 +81,7 @@ export default function Terminal() {
         output: (
           <div className="space-y-1">
             <p className="text-green-400 font-bold">Moyenul Islam - Backend Developer</p>
-            <p>Experienced backend developer with 6+ years of professional experience.</p>
+            <p>Experienced backend developer with 4+ years of professional experience.</p>
             <p>Specializing in building scalable, secure, and efficient backend systems.</p>
             <p>Core expertise: Node.js, Express, MongoDB, PostgreSQL, and API development.</p>
           </div>
@@ -93,22 +93,22 @@ export default function Terminal() {
           <div className="space-y-1">
             <p className="text-green-400 font-bold">Technical Skills:</p>
             <p>
-              • <span className="text-green-400">Languages:</span> JavaScript, TypeScript, Python, SQL
+              • <span className="text-green-400">Languages:</span> JavaScript, Python, SQL
             </p>
             <p>
-              • <span className="text-green-400">Frameworks:</span> Express.js, NestJS, Django, Flask
+              • <span className="text-green-400">Frameworks:</span> Express.js, FastAPI, Flask
             </p>
             <p>
-              • <span className="text-green-400">Databases:</span> MongoDB, PostgreSQL, MySQL, Redis
+              • <span className="text-green-400">Databases:</span> MongoDB, PostgreSQL
             </p>
             <p>
-              • <span className="text-green-400">Cloud:</span> AWS, GCP, Azure, Heroku
+              • <span className="text-green-400">Cloud:</span> AWS, GCP
             </p>
             <p>
               • <span className="text-green-400">DevOps:</span> Docker, Kubernetes, CI/CD, Terraform
             </p>
             <p>
-              • <span className="text-green-400">Other:</span> GraphQL, REST APIs, WebSockets, Microservices
+              • <span className="text-green-400">Other:</span> REST APIs, WebSockets, Microservices
             </p>
           </div>
         ),

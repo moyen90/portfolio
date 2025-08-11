@@ -60,11 +60,11 @@ export default function Contact() {
                     <div className="p-2 bg-green-900/20 rounded-md mr-4">
                       <Mail className="w-6 h-6 text-green-500" />
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <h3 className="text-green-500 font-medium">Email</h3>
                       <a
                         href="mailto:dev.moyenislam@gmail.com"
-                        className="text-green-600 hover:text-green-400 transition-colors"
+                        className="text-green-600 hover:text-green-400 transition-colors break-words"
                       >
                         dev.moyenislam@gmail.com
                       </a>
