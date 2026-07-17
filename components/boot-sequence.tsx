@@ -5,6 +5,8 @@ import { motion } from "framer-motion"
 
 export default function BootSequence({ progress }: { progress: number }) {
   const [bootMessages, setBootMessages] = useState<string[]>([])
+  const pct = Math.min(100, Math.max(0, progress))
+  const pctLabel = Math.min(100, Math.floor(progress))
   const bootSequenceMessages = [
     "Initializing system kernel...",
     "Loading system modules...",
@@ -78,18 +80,18 @@ export default function BootSequence({ progress }: { progress: number }) {
           )}
         </motion.div>
 
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }} className="mt-6">
-          <div className="w-full bg-brand-forest rounded-full h-2.5">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2 }} className="mt-6 min-w-0">
+          <div className="h-2.5 w-full overflow-hidden rounded-full bg-brand-forest">
             <motion.div
-              className="bg-brand-lime h-2.5 rounded-full"
+              className="h-full max-w-full rounded-full bg-brand-lime"
               initial={{ width: "0%" }}
-              animate={{ width: `${progress}%` }}
+              animate={{ width: `${pct}%` }}
               transition={{ duration: 0.3 }}
-            ></motion.div>
+            />
           </div>
-          <div className="flex justify-between mt-2 text-xs text-brand-frost">
-            <span>BOOT SEQUENCE: {Math.floor(progress)}%</span>
-            <span>{progress >= 100 ? "COMPLETE" : "IN PROGRESS"}</span>
+          <div className="mt-2 flex min-w-0 items-center justify-between gap-3 text-xs text-brand-frost">
+            <span className="min-w-0 truncate tabular-nums">BOOT SEQUENCE: {pctLabel}%</span>
+            <span className="shrink-0 tabular-nums">{pct >= 100 ? "COMPLETE" : "IN PROGRESS"}</span>
           </div>
         </motion.div>
       </div>

@@ -2,7 +2,7 @@
 
 import { useSystem } from "./system-context"
 import { motion } from "framer-motion"
-import { LayoutDashboard, Cpu, Network, TerminalIcon, Mail, User, FolderOpen, X } from "lucide-react"
+import { LayoutDashboard, Cpu, TerminalIcon, Mail, User, FolderOpen, X } from "lucide-react"
 
 export default function Sidebar({ onMobileClose }: { onMobileClose?: () => void }) {
   const { activeSection, setActiveSection, systemStatus, addNotification } = useSystem()
@@ -10,8 +10,7 @@ export default function Sidebar({ onMobileClose }: { onMobileClose?: () => void 
   const menuItems = [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
     { id: "skills", label: "Skills Matrix", icon: Cpu },
-    { id: "projects", label: "Projects Network", icon: Network },
-    { id: "projects-list", label: "Projects List", icon: FolderOpen },
+    { id: "projects-list", label: "Projects", icon: FolderOpen },
     { id: "terminal", label: "Terminal", icon: TerminalIcon },
     { id: "contact", label: "Contact", icon: Mail },
   ]
@@ -100,10 +99,13 @@ function StatusBar({ label, value }: { label: string; value: number }) {
     <div className="text-xs">
       <div className="flex justify-between mb-1">
         <span className="text-brand-river-mist">{label}</span>
-        <span className="text-brand-lime">{Math.round(value)}%</span>
+        <span className="text-brand-lime tabular-nums">{Math.round(value)}%</span>
       </div>
       <div className="w-full bg-brand-deep-forest rounded-full h-1.5">
-        <div className={`h-1.5 rounded-full ${getStatusColor(value)}`} style={{ width: `${value}%` }}></div>
+        <div
+          className={`h-1.5 rounded-full transition-[width] duration-[1200ms] ease-[cubic-bezier(0.4,0,0.2,1)] ${getStatusColor(value)}`}
+          style={{ width: `${value}%` }}
+        />
       </div>
     </div>
   )
