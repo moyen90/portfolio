@@ -1,286 +1,210 @@
 "use client"
 
 import type React from "react"
-
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import { motion } from "framer-motion"
+import { TerminalSquare, Trash2, Circle } from "lucide-react"
 import { useSystem } from "../system-context"
+import { processTerminalCommand, terminalCommandList } from "@/lib/terminal-commands"
+
+const fade = (delay = 0) => ({
+  initial: { opacity: 0, y: 16 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.35, delay, ease: [0.22, 1, 0.36, 1] },
+})
+
+const QUICK_COMMANDS = ["help", "about", "skills", "projects", "contact"] as const
 
 export default function Terminal() {
   const { terminalHistory, addTerminalEntry, clearTerminal } = useSystem()
   const [input, setInput] = useState("")
+  const [history, setHistory] = useState<string[]>([])
+  const [historyIndex, setHistoryIndex] = useState(-1)
   const inputRef = useRef<HTMLInputElement>(null)
   const terminalRef = useRef<HTMLDivElement>(null)
 
-  // Focus input on mount and when terminal is clicked
   useEffect(() => {
     inputRef.current?.focus()
   }, [])
 
-  // Scroll to bottom when terminal history changes
   useEffect(() => {
     if (terminalRef.current) {
       terminalRef.current.scrollTop = terminalRef.current.scrollHeight
     }
   }, [terminalHistory])
 
+  const runCommand = useCallback(
+    (cmd: string) => {
+      const trimmed = cmd.trim()
+      if (!trimmed) return
+      addTerminalEntry({ input: trimmed })
+      processTerminalCommand(trimmed, { addTerminalEntry, clearTerminal })
+      setHistory((prev) => [...prev.filter((c) => c !== trimmed), trimmed].slice(-50))
+      setHistoryIndex(-1)
+    },
+    [addTerminalEntry, clearTerminal],
+  )
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (!input.trim()) return
-
-    // Add user input to history
-    addTerminalEntry({ input })
-
-    // Process command
-    processCommand(input)
-
-    // Clear input
+    runCommand(input)
     setInput("")
   }
 
-  const processCommand = (cmd: string) => {
-    const command = cmd.trim().toLowerCase()
-
-    // Command processing logic
-    if (command === "help") {
-      addTerminalEntry({
-        output: (
-          <div className="space-y-1">
-            <p>Available commands:</p>
-            <p>
-              <span className="text-brand-frost">help</span> - Show this help message
-            </p>
-            <p>
-              <span className="text-brand-frost">clear</span> - Clear the terminal
-            </p>
-            <p>
-              <span className="text-brand-frost">about</span> - About the developer
-            </p>
-            <p>
-              <span className="text-brand-frost">skills</span> - List developer skills
-            </p>
-            <p>
-              <span className="text-brand-frost">projects</span> - List recent projects
-            </p>
-            <p>
-              <span className="text-brand-frost">contact</span> - Show contact information
-            </p>
-            <p>
-              <span className="text-brand-frost">github</span> - Open GitHub profile
-            </p>
-            <p>
-              <span className="text-brand-frost">linkedin</span> - Open LinkedIn profile
-            </p>
-          </div>
-        ),
-      })
-    } else if (command === "clear") {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "ArrowUp") {
+      e.preventDefault()
+      if (history.length === 0) return
+      const nextIndex = historyIndex === -1 ? history.length - 1 : Math.max(0, historyIndex - 1)
+      setHistoryIndex(nextIndex)
+      setInput(history[nextIndex])
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault()
+      if (historyIndex === -1) return
+      const nextIndex = historyIndex + 1
+      if (nextIndex >= history.length) {
+        setHistoryIndex(-1)
+        setInput("")
+      } else {
+        setHistoryIndex(nextIndex)
+        setInput(history[nextIndex])
+      }
+    } else if (e.key === "l" && e.ctrlKey) {
+      e.preventDefault()
       clearTerminal()
-    } else if (command === "about") {
-      addTerminalEntry({
-        output: (
-          <div className="space-y-1">
-            <p className="text-brand-frost font-bold">Moyenul Islam - Backend Developer</p>
-            <p>Experienced backend developer with 4+ years of professional experience.</p>
-            <p>Specializing in building scalable, secure, and efficient backend systems.</p>
-            <p>Core expertise: Node.js, Express, MongoDB, PostgreSQL, and API development.</p>
-          </div>
-        ),
-      })
-    } else if (command === "skills") {
-      addTerminalEntry({
-        output: (
-          <div className="space-y-1">
-            <p className="text-brand-frost font-bold">Technical Skills:</p>
-            <p>
-              • <span className="text-brand-frost">Languages:</span> JavaScript, Python, SQL
-            </p>
-            <p>
-              • <span className="text-brand-frost">Frameworks:</span> Express.js, FastAPI, Flask
-            </p>
-            <p>
-              • <span className="text-brand-frost">Databases:</span> MongoDB, PostgreSQL
-            </p>
-            <p>
-              • <span className="text-brand-frost">Cloud:</span> AWS, GCP
-            </p>
-            <p>
-              • <span className="text-brand-frost">DevOps:</span> Docker, Kubernetes, CI/CD, Terraform
-            </p>
-            <p>
-              • <span className="text-brand-frost">Other:</span> REST APIs, WebSockets, Microservices
-            </p>
-          </div>
-        ),
-      })
-    } else if (command === "projects") {
-      addTerminalEntry({
-        output: (
-          <div className="space-y-4">
-            <p className="text-brand-frost font-bold">═══ FEATURED PROJECTS ═══</p>
-
-            <div className="space-y-3">
-              <div className="border-l-2 border-brand-lime pl-4">
-                <div className="flex items-center space-x-2">
-                  <span className="text-brand-frost font-bold">● Photofox AI</span>
-                  <span className="text-xs bg-brand-lime/20 text-brand-frost px-2 py-0.5 rounded">ACTIVE</span>
-                </div>
-                <p className="text-sm text-brand-river-mist mt-1">
-                  Professional photography platform with AI-powered image enhancement,
-                  automated editing workflows, and enterprise-grade content management
-                </p>
-                <p className="text-xs text-brand-river-mist/80 mt-1">
-                  Tech: Node.js • Express • MongoDB • Generative AI • GCP • Docker
-                </p>
-              </div>
-
-              <div className="border-l-2 border-brand-lime pl-4">
-                <div className="flex items-center space-x-2">
-                  <span className="text-brand-frost font-bold">● Vocalo AI</span>
-                  <span className="text-xs bg-brand-lime/20 text-brand-frost px-2 py-0.5 rounded">ACTIVE</span>
-                </div>
-                <p className="text-sm text-brand-river-mist mt-1">
-                  AI-powered language learning platform with personalized curriculum,
-                  immersive conversations, and real-time speech processing
-                </p>
-                <p className="text-xs text-brand-river-mist/80 mt-1">
-                  Tech: Socket.io • Express • MongoDB • Generative AI • GCP • Docker
-                </p>
-              </div>
-
-              <div className="border-l-2 border-brand-lime pl-4">
-                <div className="flex items-center space-x-2">
-                  <span className="text-brand-frost font-bold">● SketchToImage</span>
-                  <span className="text-xs bg-brand-lime/20 text-brand-frost px-2 py-0.5 rounded">ACTIVE</span>
-                </div>
-                <p className="text-sm text-brand-river-mist mt-1">
-                  Transform sketches into stunning images using AI magic with
-                  advanced image processing and multiple art styles
-                </p>
-                <p className="text-xs text-brand-river-mist/80 mt-1">
-                  Tech: Express.js • MongoDB • Generative AI • GCP • Docker
-                </p>
-              </div>
-            </div>
-
-            <div className="text-xs text-brand-river-mist/80 mt-4 pt-2 border-t border-brand-deep-forest/50">
-              <p>→ All projects feature scalable architecture and modern development practices</p>
-              <p>→ Type 'contact' for collaboration opportunities</p>
-            </div>
-          </div>
-        ),
-      })
-    } else if (command === "contact") {
-      addTerminalEntry({
-        output: (
-          <div className="space-y-1">
-            <p className="text-brand-frost font-bold">Contact Information:</p>
-            <p>
-              • <span className="text-brand-frost">Email:</span> dev.moyenislam@gmail.com
-            </p>
-            <p>
-              • <span className="text-brand-frost">Phone:</span> +880 1308 989743
-            </p>
-            <p>
-              • <span className="text-brand-frost">Location:</span> Bogura, Bangladesh
-            </p>
-            <p>
-              • <span className="text-brand-frost">GitHub:</span> github.com/moyen90
-            </p>
-            <p>
-              • <span className="text-brand-frost">LinkedIn:</span> linkedin.com/in/moyenul-islam-675204211
-            </p>
-          </div>
-        ),
-      })
-    } else if (command === "github") {
-      addTerminalEntry({
-        output: "Opening GitHub profile...",
-      })
-      window.open("https://github.com/moyen90", "_blank")
-    } else if (command === "linkedin") {
-      addTerminalEntry({
-        output: "Opening LinkedIn profile...",
-      })
-      window.open("https://linkedin.com/in/moyenul-islam-675204211", "_blank")
-    } else {
-      addTerminalEntry({
-        output: `Command not found: ${command}. Type 'help' for available commands.`,
-        isError: true,
-      })
     }
   }
 
   return (
-    <section id="terminal" className="w-full py-1 md:py-1 lg:py-1">
-      <div className="container px-4 md:px-6 space-y-6">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-          <h1 className="text-3xl font-bold text-brand-frost mb-2">Terminal</h1>
-          <p className="text-brand-river-mist mb-6">
-            Interactive command-line interface. Type 'help' to see available commands.
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="bg-brand-forest border border-brand-deep-forest/50 rounded-md overflow-hidden"
-        >
-          <div className="bg-brand-deep-forest px-4 py-2 border-b border-brand-deep-forest/50 flex items-center">
-            <div className="flex space-x-2 mr-4">
-              <div className="w-3 h-3 rounded-full bg-red-500"></div>
-              <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-              <div className="w-3 h-3 rounded-full bg-brand-lime"></div>
-            </div>
-            <div className="text-brand-frost text-sm">bash - moyen@server-control-center</div>
+    <section id="terminal" className="w-full pb-8">
+      <div className="mx-auto max-w-6xl space-y-6 px-1 md:px-2">
+        <motion.header {...fade()} className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-medium uppercase tracking-widest text-brand-lime">CLI</p>
+            <h1 className="mt-1 text-2xl font-semibold tracking-tight text-brand-white md:text-3xl">Terminal</h1>
+            <p className="mt-2 max-w-xl text-sm text-brand-river-mist">
+              Interactive shell profile. Type <span className="font-mono text-brand-lime">help</span> or use quick
+              commands below.
+            </p>
           </div>
+          <div className="lab-glass flex items-center gap-2 self-start rounded-full px-3 py-1.5 text-xs text-brand-river-mist sm:self-auto">
+            <Circle className="h-2 w-2 fill-brand-lime text-brand-lime" />
+            session active
+          </div>
+        </motion.header>
 
-          <div
-            ref={terminalRef}
-            className="p-4 h-96 overflow-y-auto font-mono text-sm"
-            onClick={() => inputRef.current?.focus()}
-          >
-            {terminalHistory.map((entry, index) => (
-              <div key={index} className="mb-2">
-                {entry.input && (
-                  <div className="flex">
-                    <span className="text-brand-lime mr-2">$</span>
-                    <span className="text-brand-frost">{entry.input}</span>
-                  </div>
-                )}
-                {entry.output && (
-                  <div
-                    className={`ml-4 ${entry.isError ? "text-red-400" : entry.isSystem ? "text-brand-river-mist" : "text-brand-frost"}`}
-                  >
-                    {entry.output}
-                  </div>
-                )}
+        <div className="grid gap-4 lg:grid-cols-4 lg:gap-5">
+          <motion.div {...fade(0.06)} className="lab-glass overflow-hidden lg:col-span-3">
+            <div className="flex items-center justify-between border-b border-brand-river-mist/10 bg-brand-midnight/50 px-4 py-3">
+              <div className="flex items-center gap-3">
+                <div className="flex gap-1.5">
+                  <span className="h-2.5 w-2.5 rounded-full bg-red-500/90" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-amber-400/90" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-brand-lime/90" />
+                </div>
+                <div className="flex items-center gap-2 font-mono text-xs text-brand-river-mist">
+                  <TerminalSquare className="h-3.5 w-3.5 text-brand-lime" />
+                  moyen@control-lab ~ bash
+                </div>
               </div>
-            ))}
+              <button
+                type="button"
+                onClick={() => clearTerminal()}
+                className="flex items-center gap-1 rounded-md px-2 py-1 text-xs text-brand-river-mist transition-colors hover:bg-brand-forest/60 hover:text-brand-frost"
+                title="Clear (or Ctrl+L)"
+              >
+                <Trash2 className="h-3.5 w-3.5" />
+                clear
+              </button>
+            </div>
 
-            <form onSubmit={handleSubmit} className="flex mt-2">
-              <span className="text-brand-lime mr-2">$</span>
-              <input
-                ref={inputRef}
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                className="flex-1 bg-transparent text-brand-frost outline-none"
-                autoFocus
-              />
-            </form>
-          </div>
-        </motion.div>
+            <div
+              ref={terminalRef}
+              className="terminal-viewport max-h-[min(28rem,55vh)] min-h-[320px] overflow-y-auto bg-brand-midnight/80 p-4 font-mono text-sm leading-relaxed"
+              onClick={() => inputRef.current?.focus()}
+            >
+              {terminalHistory.map((entry, index) => (
+                <div key={index} className="mb-3 last:mb-0">
+                  {entry.input && (
+                    <div className="flex flex-wrap gap-x-2">
+                      <span className="select-none text-brand-lime">❯</span>
+                      <span className="text-brand-white">{entry.input}</span>
+                    </div>
+                  )}
+                  {entry.output && (
+                    <div
+                      className={`mt-1 pl-4 ${
+                        entry.isError
+                          ? "text-red-400"
+                          : entry.isSystem
+                            ? "text-brand-river-mist/90"
+                            : "text-brand-river-mist"
+                      }`}
+                    >
+                      {entry.output}
+                    </div>
+                  )}
+                </div>
+              ))}
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="text-brand-river-mist text-sm"
-        >
-          <p>Tip: Type 'skills', 'projects', or 'projects-list' to learn more about my work.</p>
-        </motion.div>
+              <form onSubmit={handleSubmit} className="mt-2 flex items-center gap-2">
+                <span className="select-none text-brand-lime">❯</span>
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  className="min-w-0 flex-1 bg-transparent text-brand-white outline-none placeholder:text-brand-river-mist/40"
+                  placeholder="enter command…"
+                  spellCheck={false}
+                  autoComplete="off"
+                  aria-label="Terminal command input"
+                />
+              </form>
+            </div>
+          </motion.div>
+
+          <motion.aside {...fade(0.1)} className="space-y-4">
+            <div className="lab-glass p-4">
+              <p className="text-xs font-semibold uppercase tracking-wider text-brand-river-mist">Quick run</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {QUICK_COMMANDS.map((cmd) => (
+                  <button
+                    key={cmd}
+                    type="button"
+                    onClick={() => runCommand(cmd)}
+                    className="rounded-full border border-brand-river-mist/15 bg-brand-forest/40 px-3 py-1 font-mono text-xs text-brand-frost transition-colors hover:border-brand-lime/35 hover:text-brand-lime"
+                  >
+                    {cmd}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="lab-glass p-4">
+              <p className="text-xs font-semibold uppercase tracking-wider text-brand-river-mist">Shortcuts</p>
+              <ul className="mt-3 space-y-2 text-xs text-brand-river-mist">
+                <li>
+                  <kbd className="rounded bg-brand-midnight px-1.5 py-0.5 font-mono text-brand-frost">↑</kbd>{" "}
+                  <kbd className="rounded bg-brand-midnight px-1.5 py-0.5 font-mono text-brand-frost">↓</kbd> command
+                  history
+                </li>
+                <li>
+                  <kbd className="rounded bg-brand-midnight px-1.5 py-0.5 font-mono text-brand-frost">Ctrl</kbd>+
+                  <kbd className="rounded bg-brand-midnight px-1.5 py-0.5 font-mono text-brand-frost">L</kbd> clear
+                </li>
+              </ul>
+            </div>
+
+            <div className="lab-glass p-4">
+              <p className="text-xs font-semibold uppercase tracking-wider text-brand-river-mist">Registry</p>
+              <p className="mt-2 font-mono text-[10px] leading-relaxed text-brand-river-mist/80">
+                {terminalCommandList.join(" · ")}
+              </p>
+            </div>
+          </motion.aside>
+        </div>
       </div>
     </section>
   )

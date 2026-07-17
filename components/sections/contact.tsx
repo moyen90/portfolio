@@ -1,203 +1,211 @@
 "use client"
 
 import type React from "react"
-import { useEffect } from "react"
-
+import Link from "next/link"
 import { motion } from "framer-motion"
-import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Send } from "lucide-react"
+import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Send, MessageSquare, Clock } from "lucide-react"
+import { buildContactMailto, contactInfo, socialLinks } from "@/lib/contact"
+
+const fade = (delay = 0) => ({
+  initial: { opacity: 0, y: 16 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.35, delay, ease: [0.22, 1, 0.36, 1] },
+})
+
+const socialIcons = {
+  GitHub: Github,
+  LinkedIn: Linkedin,
+  X: Twitter,
+} as const
+
+const inputClass =
+  "w-full rounded-lg border border-brand-river-mist/15 bg-brand-midnight/50 px-3 py-2.5 text-sm text-brand-frost outline-none transition-shadow placeholder:text-brand-river-mist/40 focus:border-brand-lime/40 focus:ring-1 focus:ring-brand-lime/50"
 
 export default function Contact() {
-  // Suppress browser extension errors
-  useEffect(() => {
-    const originalError = console.error
-    console.error = (...args) => {
-      if (args[0]?.includes?.('message channel closed') ||
-        args[0]?.includes?.('asynchronous response')) {
-        return // Ignore extension errors
-      }
-      originalError.apply(console, args)
-    }
-
-    return () => {
-      console.error = originalError
-    }
-  }, [])
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
-    const name = formData.get('name') as string
-    const email = formData.get('email') as string
-    const subject = formData.get('subject') as string
-    const message = formData.get('message') as string
-
-    const mailtoLink = `mailto:dev.moyenislam@gmail.com?subject=${encodeURIComponent(`Portfolio Contact: ${subject}`)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`
-
-    window.open(mailtoLink, '_self')
+    const name = formData.get("name") as string
+    const email = formData.get("email") as string
+    const subject = formData.get("subject") as string
+    const message = formData.get("message") as string
+    window.open(buildContactMailto(name, email, subject, message), "_self")
   }
 
   return (
-    <section id="contact" className="w-full py-1 md:py-1 lg:py-1">
-      <div className="container px-4 md:px-6 space-y-6">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-          <h1 className="text-3xl font-bold text-brand-frost mb-2">Contact</h1>
-          <p className="text-brand-river-mist mb-6">Get in touch for project inquiries, collaborations, or just to say hello.</p>
-        </motion.div>
+    <section id="contact" className="w-full pb-8">
+      <div className="mx-auto max-w-6xl space-y-8 px-1 md:px-2">
+        <motion.header {...fade()} className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-xs font-medium uppercase tracking-widest text-brand-lime">Comms</p>
+            <h1 className="mt-1 text-2xl font-semibold tracking-tight text-brand-white md:text-3xl">Contact</h1>
+            <p className="mt-2 max-w-xl text-sm text-brand-river-mist">
+              Project inquiries, backend architecture, or AI integration — send a message or use the channels below.
+            </p>
+          </div>
+          <div className="lab-glass self-start rounded-full px-3 py-1.5 text-xs text-brand-lime sm:self-auto">
+            {contactInfo.availability}
+          </div>
+        </motion.header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="h-full"
-          >
-            <div className="bg-brand-deep-forest border border-brand-deep-forest/50 rounded-md p-6 h-full flex flex-col">
-              <h2 className="text-brand-frost font-bold text-xl mb-6">Contact Information</h2>
+        <div className="grid gap-4 lg:grid-cols-5 lg:gap-5">
+          <motion.div {...fade(0.06)} className="space-y-4 lg:col-span-2">
+            <div className="lab-glass p-5 md:p-6">
+              <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-river-mist">Direct channels</h2>
+              <ul className="mt-5 space-y-4">
+                <ContactRow
+                  icon={Mail}
+                  label="Email"
+                  href={`mailto:${contactInfo.email}`}
+                  value={contactInfo.email}
+                />
+                <ContactRow icon={Phone} label="Phone" href={contactInfo.phoneHref} value={contactInfo.phone} />
+                <ContactRow icon={MapPin} label="Location" value={contactInfo.location} />
+              </ul>
+            </div>
 
-              <div className="flex flex-col flex-grow justify-between">
-                <div className="space-y-6">
-                  <div className="flex items-start">
-                    <div className="p-2 bg-brand-lime/10 rounded-md mr-4">
-                      <Mail className="w-6 h-6 text-brand-lime" />
-                    </div>
-                    <div className="min-w-0">
-                      <h3 className="text-brand-lime font-medium">Email</h3>
-                      <a
-                        href="mailto:dev.moyenislam@gmail.com"
-                        className="text-brand-river-mist hover:text-brand-frost transition-colors break-words"
-                      >
-                        dev.moyenislam@gmail.com
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start">
-                    <div className="p-2 bg-brand-lime/10 rounded-md mr-4">
-                      <Phone className="w-6 h-6 text-brand-lime" />
-                    </div>
-                    <div>
-                      <h3 className="text-brand-lime font-medium">Phone</h3>
-                      <a href="tel:+11234567890" className="text-brand-river-mist hover:text-brand-frost transition-colors">
-                        +880 1308 989743
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start">
-                    <div className="p-2 bg-brand-lime/10 rounded-md mr-4">
-                      <MapPin className="w-6 h-6 text-brand-lime" />
-                    </div>
-                    <div>
-                      <h3 className="text-brand-lime font-medium">Location</h3>
-                      <p className="text-brand-river-mist">Bogura, Bangladesh</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-6">
-                  <h3 className="text-brand-lime font-medium mb-4">Connect</h3>
-                  <div className="flex space-x-4">
+            <div className="lab-glass p-5 md:p-6">
+              <h2 className="text-sm font-semibold uppercase tracking-wider text-brand-river-mist">Social</h2>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {socialLinks.map(({ href, label }) => {
+                  const Icon = socialIcons[label as keyof typeof socialIcons]
+                  return (
                     <a
-                      href="https://github.com/moyen90"
-                      className="p-2 bg-brand-lime/10 rounded-md text-brand-lime hover:text-brand-frost hover:bg-brand-lime/10 transition-colors"
+                      key={href}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={label}
+                      className="inline-flex items-center gap-2 rounded-full border border-brand-river-mist/15 bg-brand-forest/40 px-3 py-2 text-sm text-brand-frost transition-colors hover:border-brand-lime/35 hover:text-brand-lime"
                     >
-                      <Github className="w-6 h-6" />
+                      <Icon className="h-4 w-4" />
+                      {label}
                     </a>
-                    <a
-                      href="https://www.linkedin.com/in/moyenul-islam-675204211/"
-                      className="p-2 bg-brand-lime/10 rounded-md text-brand-lime hover:text-brand-frost hover:bg-brand-lime/10 transition-colors"
-                    >
-                      <Linkedin className="w-6 h-6" />
-                    </a>
-                    <a
-                      href="https://x.com/moyen900"
-                      className="p-2 bg-brand-lime/10 rounded-md text-brand-lime hover:text-brand-frost hover:bg-brand-lime/10 transition-colors"
-                    >
-                      <Twitter className="w-6 h-6" />
-                    </a>
-                  </div>
-                </div>
+                  )
+                })}
+              </div>
+            </div>
+
+            <div className="lab-glass flex gap-3 p-4">
+              <Clock className="h-5 w-5 shrink-0 text-brand-lime" />
+              <div>
+                <p className="text-sm font-medium text-brand-frost">Typical response</p>
+                <p className="mt-1 text-xs text-brand-river-mist">Within 1–2 business days for project inquiries.</p>
               </div>
             </div>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="h-full"
-          >
-            <div className="bg-brand-deep-forest border border-brand-deep-forest/50 rounded-md p-6 h-full">
-              <h2 className="text-brand-frost font-bold text-xl mb-6">Send Message</h2>
+          <motion.div {...fade(0.1)} className="lg:col-span-3">
+            <form onSubmit={handleSubmit} className="lab-glass h-full p-5 md:p-6">
+              <div className="mb-6 flex items-center gap-2">
+                <MessageSquare className="h-5 w-5 text-brand-lime" />
+                <h2 className="text-lg font-semibold text-brand-white">Send a message</h2>
+              </div>
 
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="name" className="block text-brand-lime text-sm font-medium mb-1">
-                      Name
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      required
-                      className="w-full px-3 py-2 bg-brand-forest border border-brand-deep-forest/50 rounded-md text-brand-frost focus:outline-none focus:ring-1 focus:ring-brand-lime"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="email" className="block text-brand-lime text-sm font-medium mb-1">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      required
-                      className="w-full px-3 py-2 bg-brand-forest border border-brand-deep-forest/50 rounded-md text-brand-frost focus:outline-none focus:ring-1 focus:ring-brand-lime"
-                    />
-                  </div>
+              <div className="space-y-4">
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <Field label="Name" id="lab-contact-name" name="name" required />
+                  <Field label="Email" id="lab-contact-email" name="email" type="email" required />
                 </div>
-
+                <Field label="Subject" id="lab-contact-subject" name="subject" required />
                 <div>
-                  <label htmlFor="subject" className="block text-brand-lime text-sm font-medium mb-1">
-                    Subject
-                  </label>
-                  <input
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    required
-                    className="w-full px-3 py-2 bg-brand-forest border border-brand-deep-forest/50 rounded-md text-brand-frost focus:outline-none focus:ring-1 focus:ring-brand-lime"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="message" className="block text-brand-lime text-sm font-medium mb-1">
+                  <label htmlFor="lab-contact-message" className="mb-1.5 block text-xs font-medium text-brand-river-mist">
                     Message
                   </label>
                   <textarea
-                    id="message"
+                    id="lab-contact-message"
                     name="message"
                     required
-                    rows={5}
-                    className="w-full px-3 py-2 bg-brand-forest border border-brand-deep-forest/50 rounded-md text-brand-frost focus:outline-none focus:ring-1 focus:ring-brand-lime"
-                  ></textarea>
+                    rows={6}
+                    className={`${inputClass} resize-y min-h-[140px]`}
+                    placeholder="Tell me about your project…"
+                  />
                 </div>
 
-                <div className="text-right">
+                <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:items-center sm:justify-between">
+                  <p className="text-xs text-brand-river-mist/80">Opens your mail client with a pre-filled draft.</p>
                   <button
                     type="submit"
-                    className="px-4 py-2 bg-brand-lime hover:bg-brand-lime/90 text-brand-forest rounded-md transition-colors flex items-center justify-center"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-lime px-6 py-2.5 text-sm font-medium text-brand-forest transition-colors hover:bg-brand-lime/90"
                   >
-                    <Send className="w-4 h-4 mr-2" />
-                    Send Message
+                    <Send className="h-4 w-4" />
+                    Send message
                   </button>
                 </div>
-              </form>
-            </div>
+              </div>
+            </form>
           </motion.div>
         </div>
+
+        <motion.div {...fade(0.14)} className="lab-glass flex flex-col gap-2 p-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-brand-river-mist">Prefer the main site contact flow?</p>
+          <Link
+            href="/#contact"
+            className="text-sm font-medium text-brand-lime transition-colors hover:text-brand-frost"
+          >
+            Open marketing site contact →
+          </Link>
+        </motion.div>
       </div>
     </section>
+  )
+}
+
+function ContactRow({
+  icon: Icon,
+  label,
+  value,
+  href,
+}: {
+  icon: typeof Mail
+  label: string
+  value: string
+  href?: string
+}) {
+  const content = (
+    <>
+      <p className="text-xs font-medium uppercase tracking-wider text-brand-lime">{label}</p>
+      <p className="mt-0.5 break-words text-sm text-brand-frost">{value}</p>
+    </>
+  )
+
+  return (
+    <li className="flex gap-3">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-lime/10">
+        <Icon className="h-5 w-5 text-brand-lime" />
+      </div>
+      <div className="min-w-0">
+        {href ? (
+          <a href={href} className="block transition-colors hover:text-brand-lime">
+            {content}
+          </a>
+        ) : (
+          content
+        )}
+      </div>
+    </li>
+  )
+}
+
+function Field({
+  label,
+  id,
+  name,
+  type = "text",
+  required,
+}: {
+  label: string
+  id: string
+  name: string
+  type?: string
+  required?: boolean
+}) {
+  return (
+    <div>
+      <label htmlFor={id} className="mb-1.5 block text-xs font-medium text-brand-river-mist">
+        {label}
+      </label>
+      <input id={id} name={name} type={type} required={required} className={inputClass} />
+    </div>
   )
 }

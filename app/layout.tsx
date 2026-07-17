@@ -1,11 +1,23 @@
-import type { Metadata } from 'next'
-import './globals.css'
+import type { Metadata } from "next"
+import { Instrument_Sans, JetBrains_Mono } from "next/font/google"
+import "./globals.css"
 
+const instrumentSans = Instrument_Sans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+})
 
 export const metadata: Metadata = {
-  title: 'Moyenul Islam',
-  description: 'Backend Developer',
-  generator: 'Moyenul Islam',
+  title: "Moyenul Islam — Backend Developer",
+  description: "Backend engineer building scalable APIs, real-time systems, and AI-enabled products.",
+  generator: "Moyenul Islam",
 }
 
 export default function RootLayout({
@@ -14,8 +26,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body suppressHydrationWarning>{children}</body>
+    <html lang="en" suppressHydrationWarning className={`${instrumentSans.variable} ${jetbrainsMono.variable}`}>
+      <body suppressHydrationWarning className="font-sans">{children}</body>
     </html>
   )
 }

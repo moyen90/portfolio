@@ -6,7 +6,6 @@ import { useSystem } from "./system-context"
 import Sidebar from "./sidebar"
 import Dashboard from "./sections/dashboard"
 import SkillsMatrix from "./sections/skills-matrix"
-import ProjectsNetwork from "./sections/projects-network"
 import ProjectsList from "./sections/projects-list"
 import Terminal from "./sections/terminal"
 import Contact from "./sections/contact"
@@ -29,7 +28,6 @@ export default function CommandCenter() {
   const sectionComponents = useMemo(() => ({
     dashboard: Dashboard,
     skills: SkillsMatrix,
-    projects: ProjectsNetwork,
     "projects-list": ProjectsList,
     terminal: Terminal,
     contact: Contact,

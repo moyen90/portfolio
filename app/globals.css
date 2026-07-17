@@ -201,7 +201,31 @@ html {
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply rounded-2xl border border-brand-river-mist/10 bg-brand-deep-forest/35 backdrop-blur-md;
+  }
+
+  .glass-nav {
+    @apply bg-brand-midnight/70 backdrop-blur-xl;
+  }
+
+  .lab-glass {
+    @apply rounded-2xl border border-brand-river-mist/10 bg-brand-deep-forest/40 backdrop-blur-md;
+  }
+}
+
+@layer utilities {
+  .font-sans {
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  }
+
+  .font-mono {
+    font-family: var(--font-mono), ui-monospace, monospace;
   }
 }
 
@@ -231,4 +255,9 @@ html {
 
 .animate-spin-slower {
   animation: spin-slower 12s linear infinite;
+}
+
+.terminal-viewport {
+  background-image: linear-gradient(to bottom, transparent 50%, rgba(159, 206, 190, 0.02) 50%);
+  background-size: 100% 4px;
 }

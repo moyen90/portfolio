@@ -82,19 +82,19 @@ export function SystemProvider({ children }: { children: ReactNode }) {
     },
   ])
 
-  // Update system status periodically - only on client side
+  // Update system status periodically — functional updates, stable interval
   useEffect(() => {
     const interval = setInterval(() => {
-      setSystemStatus({
-        cpu: Math.min(100, Math.max(5, systemStatus.cpu + (Math.random() - 0.5) * 10)),
-        memory: Math.min(100, Math.max(20, systemStatus.memory + (Math.random() - 0.5) * 5)),
-        network: Math.min(100, Math.max(10, systemStatus.network + (Math.random() - 0.5) * 15)),
-        storage: Math.min(100, Math.max(50, systemStatus.storage + (Math.random() - 0.5) * 2)),
-      })
-    }, 3000)
+      setSystemStatus((prev) => ({
+        cpu: Math.min(100, Math.max(5, prev.cpu + (Math.random() - 0.5) * 4)),
+        memory: Math.min(100, Math.max(20, prev.memory + (Math.random() - 0.5) * 3)),
+        network: Math.min(100, Math.max(10, prev.network + (Math.random() - 0.5) * 5)),
+        storage: Math.min(100, Math.max(50, prev.storage + (Math.random() - 0.5) * 1.5)),
+      }))
+    }, 2000)
 
     return () => clearInterval(interval)
-  }, [systemStatus])
+  }, [])
 
   // Update the addNotification function to prevent infinite loops
   const addNotification = (message: string, type: "info" | "warning" | "error" | "success") => {
