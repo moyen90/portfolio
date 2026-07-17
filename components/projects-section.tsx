@@ -58,18 +58,18 @@ const projects = [
 
 export default function ProjectsSection() {
   return (
-    <section id="projects" className="py-20 bg-gray-900">
+    <section id="projects" className="py-20 bg-brand-forest">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Featured Projects</h2>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+          <p className="text-xl text-brand-river-mist max-w-2xl mx-auto">
             Here are some of the projects I've worked on that showcase my backend development skills.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
-            <Card key={index} className="bg-gray-800/50 border-gray-700 overflow-hidden h-full flex flex-col">
+            <Card key={index} className="bg-brand-deep-forest/50 border-brand-deep-forest overflow-hidden h-full flex flex-col">
               <div className="relative h-48 overflow-hidden">
                 <img
                   src={project.image || "/placeholder.svg"}
@@ -79,11 +79,11 @@ export default function ProjectsSection() {
               </div>
               <CardContent className="p-6 flex-grow flex flex-col">
                 <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-                <p className="text-gray-400 mb-4 flex-grow">{project.description}</p>
+                <p className="text-brand-river-mist mb-4 flex-grow">{project.description}</p>
 
                 <div className="mb-4 flex flex-wrap gap-2">
                   {project.technologies.map((tech) => (
-                    <Badge key={tech} variant="outline" className="bg-gray-700/50">
+                    <Badge key={tech} variant="outline" className="bg-brand-forest/50">
                       {tech}
                     </Badge>
                   ))}
@@ -92,7 +92,7 @@ export default function ProjectsSection() {
                 <div className="flex gap-4">
                   <a
                     href={project.liveUrl}
-                    className="flex items-center gap-1 text-emerald-500 hover:text-emerald-400 transition-colors"
+                    className="flex items-center gap-1 text-brand-lime hover:text-brand-lime transition-colors"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -101,7 +101,7 @@ export default function ProjectsSection() {
                   </a>
                   <a
                     href={project.githubUrl}
-                    className="flex items-center gap-1 text-gray-400 hover:text-white transition-colors"
+                    className="flex items-center gap-1 text-brand-river-mist hover:text-brand-frost transition-colors"
                     target="_blank"
                     rel="noopener noreferrer"
                   >

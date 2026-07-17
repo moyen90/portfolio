@@ -64,21 +64,21 @@ const getProjectIcon = (type: string) => {
 const getProjectColors = () => {
     // Consistent styling matching dashboard theme
     return {
-        border: 'border-green-900/30 hover:border-green-800/50',
-        background: 'bg-gray-800',
-        badge: 'bg-green-900/20 text-green-500',
-        iconBg: 'bg-green-900/20'
+        border: 'border-brand-deep-forest/50 hover:border-brand-deep-forest',
+        background: 'bg-brand-deep-forest',
+        badge: 'bg-brand-lime/10 text-brand-lime',
+        iconBg: 'bg-brand-lime/10'
     }
 }
 
 const getStatusBadge = (status?: string) => {
     switch (status) {
         case 'active':
-            return <Badge className="bg-green-900/20 text-green-500">● Active</Badge>
+            return <Badge className="bg-brand-lime/10 text-brand-lime">● Active</Badge>
         case 'maintenance':
-            return <Badge className="bg-green-900/20 text-green-500">⚠ Maintenance</Badge>
+            return <Badge className="bg-brand-lime/10 text-brand-lime">⚠ Maintenance</Badge>
         case 'development':
-            return <Badge className="bg-green-900/20 text-green-500">🔧 Development</Badge>
+            return <Badge className="bg-brand-lime/10 text-brand-lime">🔧 Development</Badge>
         default:
             return null
     }
@@ -96,10 +96,10 @@ export const ProjectsList: React.FC = () => {
                     transition={{ duration: 0.2 }}
                     className="text-center space-y-4"
                 >
-                    <h1 className="text-4xl md:text-5xl font-bold text-green-400 tracking-tight">
+                    <h1 className="text-4xl md:text-5xl font-bold text-brand-frost tracking-tight">
                         Featured Projects
                     </h1>
-                    <p className="text-green-600 text-lg max-w-2xl mx-auto">
+                    <p className="text-brand-river-mist text-lg max-w-2xl mx-auto">
                         A showcase of my major applications and services that demonstrate full-stack development expertise,
                         AI integration, and scalable architecture design.
                     </p>
@@ -122,12 +122,12 @@ export const ProjectsList: React.FC = () => {
                   h-full ${colors.background} 
                   border ${colors.border} 
                   transition-all duration-300 
-                  hover:border-green-700/50
+                  hover:border-brand-lime/30
                   cursor-pointer relative overflow-hidden
                 `}>
                                     <CardContent className="p-6 h-full flex flex-col">
                                         {/* Background decoration matching dashboard */}
-                                        <div className="absolute top-0 right-0 w-16 h-16 bg-green-500/5 rounded-bl-full"></div>
+                                        <div className="absolute top-0 right-0 w-16 h-16 bg-brand-lime/5 rounded-bl-full"></div>
 
                                         {/* Header */}
                                         <div className="flex items-start justify-between mb-4">
@@ -135,12 +135,12 @@ export const ProjectsList: React.FC = () => {
                                                 <div className={`
                           p-2 rounded-md ${colors.iconBg}
                         `}>
-                                                    <div className="text-green-500">
+                                                    <div className="text-brand-lime">
                                                         {getProjectIcon(project.type)}
                                                     </div>
                                                 </div>
                                                 <div>
-                                                    <h3 className="text-xl font-bold text-green-400 group-hover:text-green-300 transition-colors">
+                                                    <h3 className="text-xl font-bold text-brand-frost group-hover:text-brand-lime/90 transition-colors">
                                                         {project.name}
                                                     </h3>
                                                     <div className="flex items-center space-x-2 mt-1">
@@ -155,21 +155,21 @@ export const ProjectsList: React.FC = () => {
                                         </div>
 
                                         {/* Description */}
-                                        <p className="text-green-600 text-sm leading-relaxed mb-6 flex-grow">
+                                        <p className="text-brand-river-mist text-sm leading-relaxed mb-6 flex-grow">
                                             {project.description}
                                         </p>
 
                                         {/* Technologies */}
                                         <div className="mb-6">
-                                            <h4 className="text-green-500 text-sm font-medium mb-3 flex items-center">
-                                                <div className="w-1 h-1 bg-green-400 rounded-full mr-2"></div>
+                                            <h4 className="text-brand-lime text-sm font-medium mb-3 flex items-center">
+                                                <div className="w-1 h-1 bg-brand-lime rounded-full mr-2"></div>
                                                 Technologies
                                             </h4>
                                             <div className="flex flex-wrap gap-2">
                                                 {project.technologies.map((tech) => (
                                                     <span
                                                         key={tech}
-                                                        className="px-2 py-1 text-xs bg-gray-800/60 text-green-400 rounded border border-green-900/30 hover:border-green-500/50 transition-colors"
+                                                        className="px-2 py-1 text-xs bg-brand-deep-forest/60 text-brand-frost rounded border border-brand-deep-forest/50 hover:border-brand-lime/50 transition-colors"
                                                     >
                                                         {tech}
                                                     </span>
@@ -186,7 +186,7 @@ export const ProjectsList: React.FC = () => {
                                                             window.open(`https://${project.liveUrl}`, '_blank')
                                                             addNotification(`Opening ${project.name}`, "info")
                                                         }}
-                                                        className="flex items-center space-x-1 text-green-400 hover:text-green-300 text-sm transition-colors"
+                                                        className="flex items-center space-x-1 text-brand-frost hover:text-brand-lime/90 text-sm transition-colors"
                                                     >
                                                         <ExternalLink className="w-4 h-4" />
                                                         <span>Live Demo</span>
@@ -202,7 +202,7 @@ export const ProjectsList: React.FC = () => {
                                                 }}
                                                 whileHover={{ scale: 1.05 }}
                                                 whileTap={{ scale: 0.95 }}
-                                                className="px-3 py-1 text-xs font-medium rounded-md bg-green-900/20 text-green-500 border border-green-900/30 hover:bg-green-800/30 hover:border-green-700/50 transition-all duration-200"
+                                                className="px-3 py-1 text-xs font-medium rounded-md bg-brand-lime/10 text-brand-lime border border-brand-deep-forest/50 hover:bg-brand-lime/15 hover:border-brand-lime/30 transition-all duration-200"
                                             >
                                                 View Details
                                             </motion.button>
@@ -221,8 +221,8 @@ export const ProjectsList: React.FC = () => {
                     transition={{ duration: 0.3, delay: 0.4 }}
                     className="text-center pt-8"
                 >
-                    <div className="inline-flex items-center space-x-2 text-green-600 text-sm">
-                        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <div className="inline-flex items-center space-x-2 text-brand-river-mist text-sm">
+                        <div className="w-2 h-2 bg-brand-lime rounded-full animate-pulse"></div>
                         <span>More projects available in the network view</span>
                     </div>
                 </motion.div>

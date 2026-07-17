@@ -83,7 +83,7 @@ export default function CommandCenter() {
           <>
             {/* Backdrop */}
             <div
-              className="fixed inset-0 bg-black/50 z-40 md:hidden"
+              className="fixed inset-0 bg-brand-midnight/70 z-40 md:hidden"
               onClick={handleMobileSidebarClose}
             />
             {/* Mobile Sidebar - Full Screen */}

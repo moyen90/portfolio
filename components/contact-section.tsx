@@ -44,7 +44,7 @@ export default function ContactSection() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Get In Touch</h2>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+          <p className="text-xl text-brand-river-mist max-w-2xl mx-auto">
             Have a project in mind or want to discuss a potential collaboration? I'd love to hear from you.
           </p>
         </div>
@@ -54,36 +54,36 @@ export default function ContactSection() {
             <h3 className="text-2xl font-semibold mb-6">Contact Information</h3>
             <div className="space-y-6">
               <div className="flex items-start gap-4">
-                <div className="p-3 rounded-lg bg-emerald-500/10 text-emerald-500">
+                <div className="p-3 rounded-lg bg-brand-lime/10 text-brand-lime">
                   <Mail className="w-6 h-6" />
                 </div>
                 <div>
                   <h4 className="font-medium mb-1">Email</h4>
-                  <a href="mailto:john@example.com" className="text-gray-400 hover:text-white transition-colors">
+                  <a href="mailto:john@example.com" className="text-brand-river-mist hover:text-brand-frost transition-colors">
                     john@example.com
                   </a>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="p-3 rounded-lg bg-emerald-500/10 text-emerald-500">
+                <div className="p-3 rounded-lg bg-brand-lime/10 text-brand-lime">
                   <Phone className="w-6 h-6" />
                 </div>
                 <div>
                   <h4 className="font-medium mb-1">Phone</h4>
-                  <a href="tel:+11234567890" className="text-gray-400 hover:text-white transition-colors">
+                  <a href="tel:+11234567890" className="text-brand-river-mist hover:text-brand-frost transition-colors">
                     +1 (123) 456-7890
                   </a>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="p-3 rounded-lg bg-emerald-500/10 text-emerald-500">
+                <div className="p-3 rounded-lg bg-brand-lime/10 text-brand-lime">
                   <MapPin className="w-6 h-6" />
                 </div>
                 <div>
                   <h4 className="font-medium mb-1">Location</h4>
-                  <p className="text-gray-400">San Francisco, California</p>
+                  <p className="text-brand-river-mist">San Francisco, California</p>
                 </div>
               </div>
             </div>
@@ -93,7 +93,7 @@ export default function ContactSection() {
               <div className="flex gap-4">
                 <a
                   href="#"
-                  className="p-3 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
+                  className="p-3 rounded-full bg-brand-deep-forest hover:bg-brand-forest transition-colors"
                   aria-label="GitHub"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -106,7 +106,7 @@ export default function ContactSection() {
                 </a>
                 <a
                   href="#"
-                  className="p-3 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
+                  className="p-3 rounded-full bg-brand-deep-forest hover:bg-brand-forest transition-colors"
                   aria-label="LinkedIn"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -115,7 +115,7 @@ export default function ContactSection() {
                 </a>
                 <a
                   href="#"
-                  className="p-3 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors"
+                  className="p-3 rounded-full bg-brand-deep-forest hover:bg-brand-forest transition-colors"
                   aria-label="Twitter"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -129,15 +129,15 @@ export default function ContactSection() {
           <div>
             <h3 className="text-2xl font-semibold mb-6">Send Me a Message</h3>
             {submitSuccess ? (
-              <div className="bg-emerald-500/20 border border-emerald-500/30 rounded-lg p-6 text-center">
-                <div className="w-16 h-16 mx-auto bg-emerald-500/20 rounded-full flex items-center justify-center mb-4">
-                  <Send className="w-8 h-8 text-emerald-500" />
+              <div className="bg-brand-lime/20 border border-brand-lime/30 rounded-lg p-6 text-center text-brand-frost">
+                <div className="w-16 h-16 mx-auto bg-brand-lime/20 rounded-full flex items-center justify-center mb-4">
+                  <Send className="w-8 h-8 text-brand-frost" />
                 </div>
                 <h4 className="text-xl font-semibold mb-2">Message Sent Successfully!</h4>
-                <p className="text-gray-300 mb-4">
+                <p className="text-brand-river-mist mb-4">
                   Thank you for reaching out. I'll get back to you as soon as possible.
                 </p>
-                <Button onClick={() => setSubmitSuccess(false)} className="bg-emerald-600 hover:bg-emerald-700">
+                <Button onClick={() => setSubmitSuccess(false)} className="bg-brand-lime text-brand-forest hover:bg-brand-lime/90">
                   Send Another Message
                 </Button>
               </div>
@@ -160,7 +160,7 @@ export default function ContactSection() {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="bg-gray-800 border-gray-700 focus:border-emerald-500 focus:ring-emerald-500"
+                      className="bg-brand-deep-forest border-brand-deep-forest focus:border-brand-lime focus:ring-brand-lime"
                     />
                   </div>
                   <div>
@@ -174,7 +174,7 @@ export default function ContactSection() {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="bg-gray-800 border-gray-700 focus:border-emerald-500 focus:ring-emerald-500"
+                      className="bg-brand-deep-forest border-brand-deep-forest focus:border-brand-lime focus:ring-brand-lime"
                     />
                   </div>
                 </div>
@@ -189,7 +189,7 @@ export default function ContactSection() {
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    className="bg-gray-800 border-gray-700 focus:border-emerald-500 focus:ring-emerald-500"
+                    className="bg-brand-deep-forest border-brand-deep-forest focus:border-brand-lime focus:ring-brand-lime"
                   />
                 </div>
 
@@ -204,11 +204,11 @@ export default function ContactSection() {
                     value={formData.message}
                     onChange={handleChange}
                     required
-                    className="bg-gray-800 border-gray-700 focus:border-emerald-500 focus:ring-emerald-500"
+                    className="bg-brand-deep-forest border-brand-deep-forest focus:border-brand-lime focus:ring-brand-lime"
                   />
                 </div>
 
-                <Button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700" disabled={isSubmitting}>
+                <Button type="submit" className="w-full bg-brand-lime text-brand-forest hover:bg-brand-lime/90" disabled={isSubmitting}>
                   {isSubmitting ? (
                     <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />

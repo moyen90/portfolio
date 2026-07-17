@@ -32,7 +32,7 @@ export default function Home() {
 
   return (
     <SystemProvider>
-      <main className="h-screen w-screen bg-black text-green-500 font-mono">
+      <main className="h-screen w-screen bg-brand-midnight text-brand-frost font-mono">
         <AnimatePresence mode="wait">
           {booting ? <BootSequence progress={bootProgress} /> : <CommandCenter />}
         </AnimatePresence>

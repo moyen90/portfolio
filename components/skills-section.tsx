@@ -109,7 +109,7 @@ export default function SkillsSection() {
           className="text-center mb-12"
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-4">Technical Expertise</h2>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+          <p className="text-xl text-brand-river-mist max-w-2xl mx-auto">
             My toolkit for building robust, scalable, and secure backend systems.
           </p>
         </motion.div>
@@ -122,8 +122,8 @@ export default function SkillsSection() {
               onClick={() => setActiveCategory(category.id)}
               className={`px-4 py-2 rounded-full transition-colors ${
                 activeCategory === category.id
-                  ? "bg-emerald-600 text-white"
-                  : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+                  ? "bg-brand-lime text-brand-forest"
+                  : "bg-brand-deep-forest text-brand-river-mist hover:bg-brand-forest"
               }`}
             >
               {category.name}
@@ -140,18 +140,18 @@ export default function SkillsSection() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <Card className="bg-gray-800/50 border-gray-700 overflow-hidden h-full hover:bg-gray-800/80 transition-colors">
+              <Card className="bg-brand-deep-forest/50 border-brand-deep-forest overflow-hidden h-full hover:bg-brand-deep-forest/80 transition-colors">
                 <CardContent className="p-6">
                   <div className="flex items-start gap-4">
-                    <div className="p-3 rounded-lg bg-emerald-500/10">
-                      <skill.icon className="w-6 h-6 text-emerald-500" />
+                    <div className="p-3 rounded-lg bg-brand-lime/10">
+                      <skill.icon className="w-6 h-6 text-brand-lime" />
                     </div>
                     <div className="flex-1">
                       <h3 className="text-xl font-semibold mb-2">{skill.name}</h3>
-                      <p className="text-gray-400 mb-4">{skill.description}</p>
-                      <div className="relative w-full h-2 bg-gray-700 rounded-full overflow-hidden">
+                      <p className="text-brand-river-mist mb-4">{skill.description}</p>
+                      <div className="relative w-full h-2 bg-brand-forest rounded-full overflow-hidden">
                         <motion.div
-                          className="absolute h-full bg-emerald-500 rounded-full"
+                          className="absolute h-full bg-brand-lime rounded-full"
                           initial={{ width: 0 }}
                           whileInView={{ width: `${skill.level}%` }}
                           transition={{ duration: 1, delay: 0.2 }}
@@ -159,8 +159,8 @@ export default function SkillsSection() {
                         />
                       </div>
                       <div className="flex justify-between mt-1">
-                        <span className="text-xs text-gray-500">Beginner</span>
-                        <span className="text-xs text-gray-500">Expert</span>
+                        <span className="text-xs text-brand-river-mist">Beginner</span>
+                        <span className="text-xs text-brand-river-mist">Expert</span>
                       </div>
                     </div>
                   </div>

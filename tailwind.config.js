@@ -1,3 +1,5 @@
+const brandColors = require("./lib/brand-colors.json")
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
@@ -18,6 +20,16 @@ module.exports = {
     },
     extend: {
       colors: {
+        brand: {
+          forest: brandColors.forest,
+          lime: brandColors.lime,
+          frost: brandColors.frost,
+          midnight: brandColors.midnight,
+          white: brandColors.white,
+          "river-mist": brandColors.riverMist,
+          "deep-forest": brandColors.deepForest,
+          stone: brandColors.stone,
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

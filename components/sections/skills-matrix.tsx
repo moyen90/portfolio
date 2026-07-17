@@ -89,8 +89,8 @@ export default function SkillsMatrix() {
     <section id="skills" className="w-full py-1 md:py-1 lg:py-1">
       <div className="container px-4 md:px-6 space-y-6">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-          <h1 className="text-3xl font-bold text-green-400 mb-2">Skills Matrix</h1>
-          <p className="text-green-600 mb-6">
+          <h1 className="text-3xl font-bold text-brand-frost mb-2">Skills Matrix</h1>
+          <p className="text-brand-river-mist mb-6">
             Technical capabilities and expertise levels across various backend technologies.
           </p>
         </motion.div>
@@ -102,8 +102,8 @@ export default function SkillsMatrix() {
               onClick={() => handleCategoryClick(category.category)}
               type="button"
               className={`px-3 py-1.5 rounded text-sm transition-colors ${activeCategory === category.category
-                ? "bg-green-900/50 text-green-400 border border-green-500/50"
-                : "bg-gray-800 text-green-600 border border-green-900/30 hover:bg-green-900/20"
+                ? "bg-brand-lime/15 text-brand-frost border border-brand-lime/50"
+                : "bg-brand-deep-forest text-brand-river-mist border border-brand-deep-forest/50 hover:bg-brand-lime/10"
                 }`}
             >
               {category.category}
@@ -117,9 +117,9 @@ export default function SkillsMatrix() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="bg-gray-800 border border-green-900/30 rounded-md p-4"
+            className="bg-brand-deep-forest border border-brand-deep-forest/50 rounded-md p-4"
           >
-            <h2 className="text-green-400 font-bold mb-4">{activeCategory}</h2>
+            <h2 className="text-brand-frost font-bold mb-4">{activeCategory}</h2>
             <div className="space-y-4">
               {skills
                 .find((cat) => cat.category === activeCategory)
@@ -133,15 +133,15 @@ export default function SkillsMatrix() {
                           handleSkillClick(skill, activeCategory)
                         }}
                         type="button"
-                        className="text-green-500 hover:text-green-400 transition-colors cursor-pointer"
+                        className="text-brand-lime hover:text-brand-frost transition-colors cursor-pointer"
                       >
                         {skill.name}
                       </button>
-                      <span className="text-green-600">{skill.level}%</span>
+                      <span className="text-brand-river-mist">{skill.level}%</span>
                     </div>
-                    <div className="w-full bg-gray-700 rounded-full h-1.5">
+                    <div className="w-full bg-brand-forest rounded-full h-1.5">
                       <motion.div
-                        className="bg-green-500 h-1.5 rounded-full"
+                        className="bg-brand-lime h-1.5 rounded-full"
                         initial={{ width: 0 }}
                         animate={{ width: `${skill.level}%` }}
                         transition={{ duration: 1, delay: 0.2 }}
@@ -157,43 +157,43 @@ export default function SkillsMatrix() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
-              className="bg-gray-800 border border-green-900/30 rounded-md p-4"
+              className="bg-brand-deep-forest border border-brand-deep-forest/50 rounded-md p-4"
             >
-              <h2 className="text-green-400 font-bold mb-4">{selectedSkill.name}</h2>
+              <h2 className="text-brand-frost font-bold mb-4">{selectedSkill.name}</h2>
               <div className="space-y-4">
                 <div>
-                  <div className="text-green-600 mb-1">Proficiency Level</div>
-                  <div className="w-full bg-gray-700 rounded-full h-2">
+                  <div className="text-brand-river-mist mb-1">Proficiency Level</div>
+                  <div className="w-full bg-brand-forest rounded-full h-2">
                     <motion.div
-                      className="bg-green-500 h-2 rounded-full"
+                      className="bg-brand-lime h-2 rounded-full"
                       initial={{ width: 0 }}
                       animate={{ width: `${selectedSkill.level}%` }}
                       transition={{ duration: 1 }}
                     ></motion.div>
                   </div>
                   <div className="flex justify-between mt-1">
-                    <span className="text-green-600 text-xs">Beginner</span>
-                    <span className="text-green-600 text-xs">Expert</span>
+                    <span className="text-brand-river-mist text-xs">Beginner</span>
+                    <span className="text-brand-river-mist text-xs">Expert</span>
                   </div>
                 </div>
 
                 <div>
-                  <div className="text-green-600 mb-1">Experience</div>
-                  <div className="text-green-400 text-2xl font-bold">{selectedSkill.years} years</div>
+                  <div className="text-brand-river-mist mb-1">Experience</div>
+                  <div className="text-brand-frost text-2xl font-bold">{selectedSkill.years} years</div>
                 </div>
 
                 <div>
-                  <div className="text-green-600 mb-1">Category</div>
-                  <div className="text-green-400">{selectedSkill.category}</div>
+                  <div className="text-brand-river-mist mb-1">Category</div>
+                  <div className="text-brand-frost">{selectedSkill.category}</div>
                 </div>
 
                 <div>
-                  <div className="text-green-600 mb-1">Projects Implemented</div>
-                  <div className="text-green-400">{selectedSkill.projects}</div>
+                  <div className="text-brand-river-mist mb-1">Projects Implemented</div>
+                  <div className="text-brand-frost">{selectedSkill.projects}</div>
                 </div>
 
                 <div className="pt-2">
-                  <div className="text-xs text-green-600 border-t border-green-900/30 pt-2">
+                  <div className="text-xs text-brand-river-mist border-t border-brand-deep-forest/50 pt-2">
                     Last updated: 2 months ago
                   </div>
                 </div>
@@ -204,9 +204,9 @@ export default function SkillsMatrix() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
-              className="bg-gray-800 border border-green-900/30 rounded-md p-4 flex items-center justify-center"
+              className="bg-brand-deep-forest border border-brand-deep-forest/50 rounded-md p-4 flex items-center justify-center"
             >
-              <div className="text-center text-green-600">
+              <div className="text-center text-brand-river-mist">
                 <div className="mb-2 text-4xl">⟨⟩</div>
                 <p>Select a skill to view detailed information</p>
               </div>
@@ -218,9 +218,9 @@ export default function SkillsMatrix() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="bg-gray-800 border border-green-900/30 rounded-md p-4 mt-6"
+          className="bg-brand-deep-forest border border-brand-deep-forest/50 rounded-md p-4 mt-6"
         >
-          <h2 className="text-green-400 font-bold mb-4">Skill Distribution</h2>
+          <h2 className="text-brand-frost font-bold mb-4">Skill Distribution</h2>
           <div className="h-20 flex items-end justify-between gap-2">
             {skills.map((category, index) => {
               const avgLevel = category.items.reduce((sum, item) => sum + item.level, 0) / category.items.length
@@ -228,20 +228,20 @@ export default function SkillsMatrix() {
               return (
                 <div key={category.category} className="flex flex-col items-center flex-1">
                   <motion.div
-                    className="w-full bg-green-900/40 rounded-t relative overflow-hidden"
+                    className="w-full bg-brand-lime/10 rounded-t relative overflow-hidden"
                     style={{ height: `${avgLevel * 0.5}%` }}
                     initial={{ height: 0 }}
                     animate={{ height: `${avgLevel * 0.5}%` }}
                     transition={{ duration: 1, delay: index * 0.1 }}
                   >
-                    <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-green-500/30 to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-brand-lime/30 to-transparent"></div>
                     <div className="absolute inset-0 grid grid-rows-5 pointer-events-none">
                       {[...Array(5)].map((_, i) => (
-                        <div key={i} className="border-t border-green-500/10"></div>
+                        <div key={i} className="border-t border-brand-lime/10"></div>
                       ))}
                     </div>
                   </motion.div>
-                  <div className="text-green-600 text-xs mt-2 transform -rotate-45 origin-top-left">
+                  <div className="text-brand-river-mist text-xs mt-2 transform -rotate-45 origin-top-left">
                     {category.category.split(" ")[0]}
                   </div>
                 </div>
@@ -251,10 +251,10 @@ export default function SkillsMatrix() {
           <div className="grid grid-cols-5 gap-2 mt-8">
             {skills.map((category) => (
               <div key={category.category} className="text-center">
-                <div className="text-green-400 text-lg font-bold">
+                <div className="text-brand-frost text-lg font-bold">
                   {Math.round(category.items.reduce((sum, item) => sum + item.level, 0) / category.items.length)}%
                 </div>
-                <div className="text-green-600 text-xs">Avg. Proficiency</div>
+                <div className="text-brand-river-mist text-xs">Avg. Proficiency</div>
               </div>
             ))}
           </div>

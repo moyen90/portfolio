@@ -27,8 +27,8 @@ export default function Dashboard() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.2 }}
         >
-          <h1 className="text-3xl font-bold text-green-400 mb-2">System Dashboard</h1>
-          <p className="text-green-600 mb-6">
+          <h1 className="text-3xl font-bold text-brand-frost mb-2">System Dashboard</h1>
+          <p className="text-brand-river-mist mb-6">
             Welcome to the Server Control Center. Explore the backend architecture and capabilities.
           </p>
         </motion.div>
@@ -84,7 +84,7 @@ export default function Dashboard() {
           transition={{ duration: 0.2, delay: 0.1 }}
           className="mt-8"
         >
-          <h2 className="text-xl font-bold text-green-400 mb-4">Recent Projects</h2>
+          <h2 className="text-xl font-bold text-brand-frost mb-4">Recent Projects</h2>
           <div className="space-y-3">
             <ProjectItem
               name="Photofox AI"
@@ -117,7 +117,7 @@ export default function Dashboard() {
             <button
               onClick={() => setActiveSection("projects")}
               type="button"
-              className="flex items-center text-green-500 hover:text-green-400 transition-colors"
+              className="flex items-center text-brand-lime hover:text-brand-frost transition-colors"
             >
               <span>View all projects</span>
               <ArrowRight className="w-4 h-4 ml-1" />
@@ -147,20 +147,20 @@ function SystemCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay }}
-      className="bg-gray-800 border border-green-900/30 rounded-md p-4 relative overflow-hidden"
+      className="bg-brand-deep-forest border border-brand-deep-forest/50 rounded-md p-4 relative overflow-hidden"
     >
-      <div className="absolute top-0 right-0 w-16 h-16 bg-green-500/5 rounded-bl-full"></div>
+      <div className="absolute top-0 right-0 w-16 h-16 bg-brand-lime/5 rounded-bl-full"></div>
       <div className="flex items-start">
-        <div className="p-2 bg-green-900/20 rounded-md mr-3">
-          <Icon className="w-6 h-6 text-green-500" />
+        <div className="p-2 bg-brand-lime/10 rounded-md mr-3">
+          <Icon className="w-6 h-6 text-brand-lime" />
         </div>
         <div>
-          <h3 className="text-green-400 font-bold">{title}</h3>
+          <h3 className="text-brand-frost font-bold">{title}</h3>
           <div className="flex items-center mt-1">
-            <div className="w-2 h-2 rounded-full bg-green-500 mr-2"></div>
-            <span className="text-green-500 text-xs">{status}</span>
+            <div className="w-2 h-2 rounded-full bg-brand-lime mr-2"></div>
+            <span className="text-brand-lime text-xs">{status}</span>
           </div>
-          <p className="text-green-600 text-sm mt-2">{description}</p>
+          <p className="text-brand-river-mist text-sm mt-2">{description}</p>
         </div>
       </div>
     </motion.div>
@@ -185,15 +185,15 @@ function ProjectItem({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.2, delay }}
-      className="bg-gray-800 border border-green-900/30 rounded-md p-4"
+      className="bg-brand-deep-forest border border-brand-deep-forest/50 rounded-md p-4"
     >
       <div className="flex items-start justify-between">
         <div className="flex-1">
-          <h3 className="text-green-400 font-bold">{name}</h3>
-          <p className="text-green-600 text-sm mt-1">{description}</p>
+          <h3 className="text-brand-frost font-bold">{name}</h3>
+          <p className="text-brand-river-mist text-sm mt-1">{description}</p>
           <div className="flex flex-wrap gap-2 mt-2">
             {technologies.map((tech) => (
-              <span key={tech} className="text-xs bg-green-900/20 text-green-500 px-2 py-1 rounded">
+              <span key={tech} className="text-xs bg-brand-lime/10 text-brand-lime px-2 py-1 rounded">
                 {tech}
               </span>
             ))}
@@ -204,7 +204,7 @@ function ProjectItem({
             href={liveLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1 text-green-400 hover:text-green-300 transition-colors ml-3 mt-1"
+            className="flex items-center gap-1 text-brand-frost hover:text-brand-lime/90 transition-colors ml-3 mt-1"
           >
             <span className="text-xs">Live</span>
             <ExternalLink className="w-3 h-3" />

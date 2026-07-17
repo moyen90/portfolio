@@ -31,30 +31,30 @@ export default function Sidebar({ onMobileClose }: { onMobileClose?: () => void 
       initial={{ x: -100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ delay: 0.2, duration: 0.5 }}
-      className={`bg-gray-900 flex flex-col ${onMobileClose
-        ? "w-full h-full rounded-lg border border-green-900/30 shadow-2xl"
-        : "w-64 border-r border-green-900/30 h-full"
+      className={`bg-brand-forest flex flex-col ${onMobileClose
+        ? "w-full h-full rounded-lg border border-brand-deep-forest/50 shadow-2xl"
+        : "w-64 border-r border-brand-deep-forest/50 h-full"
         }`}
     >
-      <div className="p-4 border-b border-green-900/30">
+      <div className="p-4 border-b border-brand-deep-forest/50">
         {/* Mobile Close Button */}
         {onMobileClose && (
           <div className="flex justify-end mb-4 md:hidden">
             <button
               onClick={onMobileClose}
-              className="text-green-500 hover:text-green-400 transition-colors"
+              className="text-brand-lime hover:text-brand-frost transition-colors"
             >
               <X className="w-6 h-6" />
             </button>
           </div>
         )}
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-full bg-green-900/30 flex items-center justify-center">
-            <User className="w-6 h-6 text-green-500" />
+          <div className="w-10 h-10 rounded-full bg-brand-lime/10 flex items-center justify-center">
+            <User className="w-6 h-6 text-brand-lime" />
           </div>
           <div>
-            <h2 className="text-green-500 font-bold">Moyenul Islam</h2>
-            <p className="text-green-600 text-xs">Backend Developer</p>
+            <h2 className="text-brand-lime font-bold">Moyenul Islam</h2>
+            <p className="text-brand-river-mist text-xs">Backend Developer</p>
           </div>
         </div>
       </div>
@@ -66,8 +66,8 @@ export default function Sidebar({ onMobileClose }: { onMobileClose?: () => void 
             onClick={() => handleSectionChange(item.id)}
             type="button"
             className={`w-full flex items-center space-x-3 px-3 py-2 rounded-md mb-1 transition-colors ${activeSection === item.id
-              ? "bg-green-900/30 text-green-400"
-              : "text-green-600 hover:bg-green-900/20 hover:text-green-500"
+              ? "bg-brand-lime/10 text-brand-frost"
+              : "text-brand-river-mist hover:bg-brand-lime/10 hover:text-brand-lime"
               }`}
           >
             <item.icon className="w-5 h-5" />
@@ -76,8 +76,8 @@ export default function Sidebar({ onMobileClose }: { onMobileClose?: () => void 
         ))}
       </nav>
 
-      <div className="p-4 border-t border-green-900/30">
-        <h3 className="text-green-600 text-xs uppercase mb-2">System Status</h3>
+      <div className="p-4 border-t border-brand-deep-forest/50">
+        <h3 className="text-brand-river-mist text-xs uppercase mb-2">System Status</h3>
         <div className="space-y-2">
           <StatusBar label="CPU" value={systemStatus.cpu} />
           <StatusBar label="Memory" value={systemStatus.memory} />
@@ -91,7 +91,7 @@ export default function Sidebar({ onMobileClose }: { onMobileClose?: () => void 
 
 function StatusBar({ label, value }: { label: string; value: number }) {
   const getStatusColor = (value: number) => {
-    if (value < 30) return "bg-green-500"
+    if (value < 30) return "bg-brand-lime"
     if (value < 70) return "bg-yellow-500"
     return "bg-red-500"
   }
@@ -99,10 +99,10 @@ function StatusBar({ label, value }: { label: string; value: number }) {
   return (
     <div className="text-xs">
       <div className="flex justify-between mb-1">
-        <span className="text-green-600">{label}</span>
-        <span className="text-green-500">{Math.round(value)}%</span>
+        <span className="text-brand-river-mist">{label}</span>
+        <span className="text-brand-lime">{Math.round(value)}%</span>
       </div>
-      <div className="w-full bg-gray-800 rounded-full h-1.5">
+      <div className="w-full bg-brand-deep-forest rounded-full h-1.5">
         <div className={`h-1.5 rounded-full ${getStatusColor(value)}`} style={{ width: `${value}%` }}></div>
       </div>
     </div>

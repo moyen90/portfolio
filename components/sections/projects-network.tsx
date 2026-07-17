@@ -3,6 +3,7 @@
 import type React from "react"
 import { useRef, useEffect, useState } from "react"
 import { motion } from "framer-motion"
+import { brandRgba } from "@/lib/brand-colors"
 import { useSystem } from "../system-context"
 
 interface Project {
@@ -100,7 +101,7 @@ export const ProjectsNetwork: React.FC = () => {
         ctx.clearRect(0, 0, width, height)
 
         // Draw connections and nodes (basic implementation)
-        ctx.strokeStyle = 'rgba(74, 222, 128, 0.2)'
+        ctx.strokeStyle = brandRgba("lime", 0.2)
         ctx.lineWidth = 1
 
         // Position nodes in a circle
@@ -138,7 +139,7 @@ export const ProjectsNetwork: React.FC = () => {
           const pos = nodePositions[index]
 
           // Node color based on type
-          let color = 'rgba(74, 222, 128, 0.3)'
+          let color = brandRgba("lime", 0.3)
           if (project.type === 'service') color = 'rgba(99, 102, 241, 0.3)'
           if (project.type === 'infrastructure') color = 'rgba(245, 158, 11, 0.3)'
 
@@ -147,14 +148,14 @@ export const ProjectsNetwork: React.FC = () => {
           ctx.arc(pos.x, pos.y, 15, 0, 2 * Math.PI)
           ctx.fillStyle = color
           ctx.fill()
-          ctx.strokeStyle = 'rgba(74, 222, 128, 0.5)'
+          ctx.strokeStyle = brandRgba("lime", 0.5)
           ctx.stroke()
 
           // Highlight selected node
           if (selectedProject && project.id === selectedProject.id) {
             ctx.beginPath()
             ctx.arc(pos.x, pos.y, 18, 0, 2 * Math.PI)
-            ctx.strokeStyle = 'rgba(74, 222, 128, 0.8)'
+            ctx.strokeStyle = brandRgba("lime", 0.8)
             ctx.lineWidth = 2
             ctx.stroke()
             ctx.lineWidth = 1
@@ -193,8 +194,8 @@ export const ProjectsNetwork: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.2 }}
         >
-          <h1 className="text-3xl font-bold text-green-400 mb-2">Projects Network</h1>
-          <p className="text-green-600 mb-6">Visualize the connections between different projects and services.</p>
+          <h1 className="text-3xl font-bold text-brand-frost mb-2">Projects Network</h1>
+          <p className="text-brand-river-mist mb-6">Visualize the connections between different projects and services.</p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -202,14 +203,14 @@ export const ProjectsNetwork: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2, delay: 0.1 }}
-            className="lg:col-span-2 bg-gray-800 border border-green-900/30 rounded-md overflow-hidden"
+            className="lg:col-span-2 bg-brand-deep-forest border border-brand-deep-forest/50 rounded-md overflow-hidden"
           >
             <div className="relative w-full" style={{ height: "500px" }}>
               <canvas ref={canvasRef} className="absolute inset-0 w-full h-full"></canvas>
 
               {!selectedProject && (
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className="text-green-600 text-center p-4 bg-gray-900/50 rounded-md">
+                  <div className="text-brand-river-mist text-center p-4 bg-brand-forest/50 rounded-md">
                     <p>Click on a project node to view details</p>
                   </div>
                 </div>
@@ -221,27 +222,27 @@ export const ProjectsNetwork: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2, delay: 0.15 }}
-            className="bg-gray-800 border border-green-900/30 rounded-md p-4"
+            className="bg-brand-deep-forest border border-brand-deep-forest/50 rounded-md p-4"
           >
             {selectedProject ? (
               <div>
-                <h2 className="text-green-400 font-bold text-xl mb-2">{selectedProject.name}</h2>
+                <h2 className="text-brand-frost font-bold text-xl mb-2">{selectedProject.name}</h2>
                 <div className="mb-4">
-                  <div className="inline-block px-2 py-1 rounded text-xs bg-gray-700 text-green-400 mb-2">
+                  <div className="inline-block px-2 py-1 rounded text-xs bg-brand-forest text-brand-frost mb-2">
                     {selectedProject.type === "major"
                       ? "Major Project"
                       : selectedProject.type === "service"
                         ? "Service"
                         : "Infrastructure"}
                   </div>
-                  <p className="text-green-600">{selectedProject.description}</p>
+                  <p className="text-brand-river-mist">{selectedProject.description}</p>
                 </div>
 
                 <div className="mb-4">
-                  <h3 className="text-green-500 text-sm font-medium mb-2">Technologies</h3>
+                  <h3 className="text-brand-lime text-sm font-medium mb-2">Technologies</h3>
                   <div className="flex flex-wrap gap-2">
                     {selectedProject.technologies.map((tech) => (
-                      <span key={tech} className="px-2 py-1 bg-green-900/20 text-green-400 rounded text-xs">
+                      <span key={tech} className="px-2 py-1 bg-brand-lime/10 text-brand-frost rounded text-xs">
                         {tech}
                       </span>
                     ))}
@@ -250,9 +251,9 @@ export const ProjectsNetwork: React.FC = () => {
 
                 <div className="mb-4">
                   <div className="flex items-center mb-3">
-                    <div className="w-1.5 h-1.5 bg-green-400 rounded-full mr-2 animate-pulse"></div>
-                    <h3 className="text-green-500 text-sm font-medium tracking-wide">CONNECTED SERVICES</h3>
-                    <div className="flex-1 ml-2 h-px bg-gradient-to-r from-green-400/20 to-transparent"></div>
+                    <div className="w-1.5 h-1.5 bg-brand-lime rounded-full mr-2 animate-pulse"></div>
+                    <h3 className="text-brand-lime text-sm font-medium tracking-wide">CONNECTED SERVICES</h3>
+                    <div className="flex-1 ml-2 h-px bg-gradient-to-r from-brand-lime/20 to-transparent"></div>
                   </div>
                   {connectedProjects.length > 0 ? (
                     <div className="space-y-2">
@@ -261,26 +262,26 @@ export const ProjectsNetwork: React.FC = () => {
                           switch (type) {
                             case 'major':
                               return {
-                                bg: 'bg-gray-900/40 border-green-900/20 hover:border-green-500/40 hover:shadow-green-500/10',
-                                color: 'from-green-400 to-green-600 shadow-green-500/25 group-hover:shadow-green-500/40',
+                                bg: 'bg-brand-forest/40 border-brand-deep-forest/40 hover:border-brand-lime/40 hover:shadow-brand-lime/10',
+                                color: 'from-brand-lime to-brand-deep-forest shadow-brand-lime/25 group-hover:shadow-brand-lime/40',
                                 symbol: '◆'
                               }
                             case 'service':
                               return {
-                                bg: 'bg-gray-900/40 border-green-900/20 hover:border-indigo-500/40 hover:shadow-indigo-500/10',
+                                bg: 'bg-brand-forest/40 border-brand-deep-forest/40 hover:border-indigo-500/40 hover:shadow-indigo-500/10',
                                 color: 'from-indigo-400 to-indigo-600 shadow-indigo-500/25 group-hover:shadow-indigo-500/40',
                                 symbol: '◯'
                               }
                             case 'infrastructure':
                               return {
-                                bg: 'bg-gray-900/40 border-green-900/20 hover:border-amber-500/40 hover:shadow-amber-500/10',
+                                bg: 'bg-brand-forest/40 border-brand-deep-forest/40 hover:border-amber-500/40 hover:shadow-amber-500/10',
                                 color: 'from-amber-400 to-amber-600 shadow-amber-500/25 group-hover:shadow-amber-500/40',
                                 symbol: '▲'
                               }
                             default:
                               return {
-                                bg: 'bg-gray-900/40 border-green-900/20 hover:border-green-500/40 hover:shadow-green-500/10',
-                                color: 'from-green-400 to-green-600 shadow-green-500/25 group-hover:shadow-green-500/40',
+                                bg: 'bg-brand-forest/40 border-brand-deep-forest/40 hover:border-brand-lime/40 hover:shadow-brand-lime/10',
+                                color: 'from-brand-lime to-brand-deep-forest shadow-brand-lime/25 group-hover:shadow-brand-lime/40',
                                 symbol: '◆'
                               }
                           }
@@ -301,13 +302,13 @@ export const ProjectsNetwork: React.FC = () => {
                               <div className="flex items-center">
                                 <div className="relative mr-3">
                                   <div className={`w-5 h-5 rounded-full bg-gradient-to-br ${style.color} shadow-lg transition-shadow duration-300`}></div>
-                                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-900 text-xs font-bold">
+                                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-brand-forest text-xs font-bold">
                                     {style.symbol}
                                   </div>
                                 </div>
-                                <span className="text-green-400 font-medium text-sm">{linkedProject.name}</span>
+                                <span className="text-brand-frost font-medium text-sm">{linkedProject.name}</span>
                               </div>
-                              <span className="text-xs text-green-600/80 bg-green-900/20 px-2 py-1 rounded">
+                              <span className="text-xs text-brand-river-mist/80 bg-brand-lime/10 px-2 py-1 rounded">
                                 {linkedProject.type === "major"
                                   ? "Major"
                                   : linkedProject.type === "service"
@@ -321,7 +322,7 @@ export const ProjectsNetwork: React.FC = () => {
                     </div>
                   ) : (
                     <div className="text-center py-4">
-                      <div className="text-green-600/60 text-sm">No connected services</div>
+                      <div className="text-brand-river-mist text-sm">No connected services</div>
                     </div>
                   )}
                 </div>
@@ -330,7 +331,7 @@ export const ProjectsNetwork: React.FC = () => {
                   <button
                     onClick={() => setSelectedProject(null)}
                     type="button"
-                    className="text-green-500 hover:text-green-400 text-sm"
+                    className="text-brand-lime hover:text-brand-frost text-sm"
                   >
                     Close Details
                   </button>
@@ -338,7 +339,7 @@ export const ProjectsNetwork: React.FC = () => {
               </div>
             ) : (
               <div className="h-full flex items-center justify-center">
-                <div className="text-center text-green-600">
+                <div className="text-center text-brand-river-mist">
                   <div className="mb-2 text-4xl">⟨⟩</div>
                   <p>Select a project to view details</p>
                 </div>
@@ -351,43 +352,43 @@ export const ProjectsNetwork: React.FC = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.4 }}
-          className="relative bg-gradient-to-br from-gray-800 via-gray-800 to-gray-900 border border-green-900/30 rounded-lg p-6 overflow-hidden"
+          className="relative bg-gradient-to-br from-brand-deep-forest via-brand-deep-forest to-brand-forest border border-brand-deep-forest/50 rounded-lg p-6 overflow-hidden"
         >
           {/* Background pattern */}
           <div className="absolute inset-0 opacity-5">
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-green-400/10 to-transparent"></div>
-            <div className="absolute -top-4 -right-4 w-32 h-32 border border-green-400/10 rounded-full"></div>
-            <div className="absolute -bottom-4 -left-4 w-24 h-24 border border-green-400/10 rounded-full"></div>
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-brand-lime/10 to-transparent"></div>
+            <div className="absolute -top-4 -right-4 w-32 h-32 border border-brand-lime/10 rounded-full"></div>
+            <div className="absolute -bottom-4 -left-4 w-24 h-24 border border-brand-lime/10 rounded-full"></div>
           </div>
 
           <div className="relative z-10">
             <div className="flex items-center mb-6">
-              <div className="w-2 h-2 bg-green-400 rounded-full mr-3 animate-pulse"></div>
-              <h2 className="text-green-400 font-bold text-lg tracking-wide">PROJECT LEGEND</h2>
-              <div className="flex-1 ml-4 h-px bg-gradient-to-r from-green-400/30 to-transparent"></div>
+              <div className="w-2 h-2 bg-brand-lime rounded-full mr-3 animate-pulse"></div>
+              <h2 className="text-brand-frost font-bold text-lg tracking-wide">PROJECT LEGEND</h2>
+              <div className="flex-1 ml-4 h-px bg-gradient-to-r from-brand-lime/30 to-transparent"></div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <motion.div
-                className="group relative p-4 rounded-lg bg-gray-900/40 border border-green-900/20 hover:border-green-500/40 transition-all duration-300 hover:shadow-lg hover:shadow-green-500/10"
+                className="group relative p-4 rounded-lg bg-brand-forest/40 border border-brand-deep-forest/40 hover:border-brand-lime/40 transition-all duration-300 hover:shadow-lg hover:shadow-brand-lime/10"
                 whileHover={{ scale: 1.02, y: -2 }}
                 transition={{ duration: 0.2 }}
               >
                 <div className="flex items-center">
                   <div className="relative mr-4">
-                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-green-400 to-green-600 shadow-lg shadow-green-500/25 group-hover:shadow-green-500/40 transition-shadow duration-300"></div>
-                    <div className="absolute inset-0 w-6 h-6 rounded-full bg-green-400/20 animate-ping"></div>
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-900 text-xs font-bold">◆</div>
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-brand-lime to-brand-deep-forest shadow-lg shadow-brand-lime/25 group-hover:shadow-brand-lime/40 transition-shadow duration-300"></div>
+                    <div className="absolute inset-0 w-6 h-6 rounded-full bg-brand-lime/20 animate-ping"></div>
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-brand-forest text-xs font-bold">◆</div>
                   </div>
                   <div>
-                    <span className="text-green-400 font-semibold text-sm">Major Projects</span>
-                    <p className="text-green-600/80 text-xs mt-1">Core applications</p>
+                    <span className="text-brand-frost font-semibold text-sm">Major Projects</span>
+                    <p className="text-brand-river-mist/80 text-xs mt-1">Core applications</p>
                   </div>
                 </div>
               </motion.div>
 
               <motion.div
-                className="group relative p-4 rounded-lg bg-gray-900/40 border border-green-900/20 hover:border-indigo-500/40 transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/10"
+                className="group relative p-4 rounded-lg bg-brand-forest/40 border border-brand-deep-forest/40 hover:border-indigo-500/40 transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/10"
                 whileHover={{ scale: 1.02, y: -2 }}
                 transition={{ duration: 0.2 }}
               >
@@ -395,17 +396,17 @@ export const ProjectsNetwork: React.FC = () => {
                   <div className="relative mr-4">
                     <div className="w-6 h-6 rounded-full bg-gradient-to-br from-indigo-400 to-indigo-600 shadow-lg shadow-indigo-500/25 group-hover:shadow-indigo-500/40 transition-shadow duration-300"></div>
                     <div className="absolute inset-0 w-6 h-6 rounded-full bg-indigo-400/20 animate-ping"></div>
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-900 text-xs font-bold">◯</div>
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-brand-forest text-xs font-bold">◯</div>
                   </div>
                   <div>
-                    <span className="text-green-400 font-semibold text-sm">Services</span>
-                    <p className="text-green-600/80 text-xs mt-1">Shared utilities</p>
+                    <span className="text-brand-frost font-semibold text-sm">Services</span>
+                    <p className="text-brand-river-mist/80 text-xs mt-1">Shared utilities</p>
                   </div>
                 </div>
               </motion.div>
 
               <motion.div
-                className="group relative p-4 rounded-lg bg-gray-900/40 border border-green-900/20 hover:border-amber-500/40 transition-all duration-300 hover:shadow-lg hover:shadow-amber-500/10"
+                className="group relative p-4 rounded-lg bg-brand-forest/40 border border-brand-deep-forest/40 hover:border-amber-500/40 transition-all duration-300 hover:shadow-lg hover:shadow-amber-500/10"
                 whileHover={{ scale: 1.02, y: -2 }}
                 transition={{ duration: 0.2 }}
               >
@@ -413,11 +414,11 @@ export const ProjectsNetwork: React.FC = () => {
                   <div className="relative mr-4">
                     <div className="w-6 h-6 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 shadow-lg shadow-amber-500/25 group-hover:shadow-amber-500/40 transition-shadow duration-300"></div>
                     <div className="absolute inset-0 w-6 h-6 rounded-full bg-amber-400/20 animate-ping"></div>
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-gray-900 text-xs font-bold">▲</div>
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-brand-forest text-xs font-bold">▲</div>
                   </div>
                   <div>
-                    <span className="text-green-400 font-semibold text-sm">Infrastructure</span>
-                    <p className="text-green-600/80 text-xs mt-1">Foundation layer</p>
+                    <span className="text-brand-frost font-semibold text-sm">Infrastructure</span>
+                    <p className="text-brand-river-mist/80 text-xs mt-1">Foundation layer</p>
                   </div>
                 </div>
               </motion.div>
